@@ -1,5 +1,6 @@
 import db from "../config/connection.js";
-import { User, Comments, FavSquirrels } from "../models/index.js";
+import models from "../models/index.js";
+const { User, Comments, FavSquirrels} = models;
 // import { Comments } from "../models/index.js";
 // import { FavSquirrels } from "../models/index.js";
 import { commentsSeeds } from '../seeds/commentsSeeds.js';
