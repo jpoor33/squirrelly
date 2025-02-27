@@ -1,5 +1,5 @@
-import User from "./user";
-import Comments from "./comments";
-import FavSquirrels from "./favsquirrels";
+import User from "./user.js";
+import Comments from "./comments.js";
+import FavSquirrels from "./favsquirrels.js";
 
-export default {User, Comments, FavSquirrels};
+export default { User, Comments, FavSquirrels };

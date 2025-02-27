@@ -6,6 +6,8 @@ export interface IUser extends Document {
     password: string;
     searchhistory: string[];
     favSquirrels: string[];
+    // favSquirrels: [{ type: Schema.Types.ObjectId, ref: "FavSquirrels" }],
+
 }
 
 const userSchema = new Schema<IUser>({
