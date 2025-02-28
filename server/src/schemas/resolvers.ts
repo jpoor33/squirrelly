@@ -3,7 +3,7 @@ import Comments, { IComment } from "../models/comments.js";
 // import FavSquirrels, { IFavSquirrels } from "../models/favsquirrels";
 import User, { IUser } from "../models/user.js";
 
-const APP_TOKEN = process.env.APP_TOKEN as string;
+const APP_TOKEN = "DzPQYwjBW9vgaLpcrQ6qzKuaY";
 
 const resolvers = {
     
@@ -47,13 +47,13 @@ const resolvers = {
                     squirrelName: "Unknown",
                     primaryFurColor: squirrel.primary_fur_color || "Unknown",
                     age: squirrel.age || "Unknown",
-                    actions: {
-                        running: squirrel.running === "true" || squirrel.running === true,
-                        chasing: squirrel.chasing === "true" || squirrel.chasing === true,
-                        eating: squirrel.eating === "true" || squirrel.eating === true,
-                        foraging: squirrel.foraging === "true" || squirrel.foraging === true,
-                        climbing: squirrel.climbing === "true" || squirrel.climbing === true,
-                    },
+                    actions: [
+                        squirrel.running === "true" || squirrel.running === true ? "running" : null,
+                        squirrel.chasing === "true" || squirrel.chasing === true ? "chasing" : null,
+                        squirrel.eating === "true" || squirrel.eating === true ? "eating" : null,
+                        squirrel.foraging === "true" || squirrel.foraging === true ? "foraging" : null,
+                        squirrel.climbing === "true" || squirrel.climbing === true ? "climbing" : null,
+                    ].filter(Boolean),
                     location: squirrel.location || "Unknown",
 
 

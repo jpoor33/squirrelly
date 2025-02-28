@@ -2,28 +2,15 @@ import express from 'express';
 import type { Request, Response } from 'express';
 import dotenv from "dotenv";
 import path from 'node:path';
-import db from './config/connection.js'
+import db from './config/connection.js';
 import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 import { typeDefs, resolvers } from './schemas/index.js';
-// import { expressMiddleware } from '@apollo/server/express4';
 // import { authenticateToken } from './utils/auth.js';
-
-// await db();
-// const app = express();
-
-// app.get("/", (_req: Request, res: Response) => res.send("Hello World!"));
-
-// app.listen(3000, () => console.log("Server running on port 3000"));
 
 dotenv.config();
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers
-});
-
 const startApolloServer = async () => {
-  await server.start();
   await db();
 
   const PORT = process.env.PORT || 3001;
@@ -32,11 +19,14 @@ const startApolloServer = async () => {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
-//   app.use('/graphql', expressMiddleware(server as any,
-//     {
-//       context: authenticateToken as any
-//     }
-//   ));
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers
+  });
+
+  await server.start();
+
+  app.use('/graphql', expressMiddleware(server));
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -48,7 +38,7 @@ const startApolloServer = async () => {
 
   app.listen(PORT, () => { 
     console.log(`API server running on port ${PORT}!`);
-    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+    console.log(`GraphQL endpoint: http://localhost:${PORT}/graphql`);
   });
 };
 

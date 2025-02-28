@@ -7,8 +7,8 @@ const typeDefs = `
   }
 
   type Action {
-  key: String!
-  value: Boolean!
+   key: String!
+   value: Boolean!
   }
 
   type FavSquirrels {
@@ -32,10 +32,10 @@ const typeDefs = `
 
   type Squirrel {
     squirrelUUID: String!
-    squirrelName: String!
+    squirrelName: String
     primaryFurColor: String!
     age: String!
-    actions: [Action!]
+    actions: [String]
     location: String!
 }
   
