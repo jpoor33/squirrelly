@@ -40,7 +40,15 @@ const typeDefs = `
 }
   
   type Query {
+    findUser(_id: ID!): User
+    findComments(_id: ID!): [Comments!]!
     getSquirrels: [Squirrel!]!
+  }
+
+  type Mutation {
+    createUser(username:String!,email:String!, password: String!): User!
+    addFavSquirrels(_id: ID!, squirrelUUID: String!) : Squirrel!
+    addComment(username:String!, squirrelUUID: String!, textContent: String!) : Comments!
   }
 
 `;
