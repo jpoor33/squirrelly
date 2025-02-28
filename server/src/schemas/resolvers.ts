@@ -3,8 +3,10 @@ import Comments, { IComment } from "../models/comments.js";
 // import FavSquirrels, { IFavSquirrels } from "../models/favsquirrels";
 import User, { IUser } from "../models/user.js";
 
+const APP_TOKEN = process.env.APP_TOKEN as string;
+
 const resolvers = {
-  const APP_TOKEN = process.env.APP_TOKEN as string;
+  
     Query: {
         //Query fot getting the entire user object based on the UUID
         findUser: async (_parent: any, { _id }: { _id: string }): Promise<IUser | null> => {
