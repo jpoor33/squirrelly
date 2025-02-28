@@ -24,6 +24,7 @@ export interface IFavSquirrels extends Document {
         },
         actions: {
             type: Map,
+            of: Boolean,
         },
     });
 
