@@ -1,6 +1,6 @@
 // import { Query } from "mongoose";
 import Comments, { IComment } from "../models/comments";
-import FavSquirrels, { IFavSquirrels } from "../models/favsquirrels";
+// import FavSquirrels, { IFavSquirrels } from "../models/favsquirrels";
 import User, { IUser } from "../models/user";
 
 const resolvers = {
@@ -53,3 +53,5 @@ const resolvers = {
 
     }
 }
+
+export default resolvers
