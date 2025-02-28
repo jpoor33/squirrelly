@@ -1,11 +1,13 @@
 import express from 'express';
 import type { Request, Response } from 'express';
+import dotenv from "dotenv";
+dotenv.config();
 // import path from 'node:path';
 import db from './config/connection.js'
-//import { ApolloServer } from '@apollo/server';// Note: Import from @apollo/server-express
-// // import { expressMiddleware } from '@apollo/server/express4';
-// // import { typeDefs, resolvers } from './schemas/index.js';
-// // import { authenticateToken } from './utils/auth.js';
+import { ApolloServer } from '@apollo/server';// Note: Import from @apollo/server-express
+// import { expressMiddleware } from '@apollo/server/express4';
+// import { typeDefs, resolvers } from './schemas/index.js';
+// import { authenticateToken } from './utils/auth.js';
 await db();
 const app = express();
 
@@ -51,5 +53,6 @@ app.listen(3000, () => console.log("Server running on port 3000"));
 // };
 
 // startApolloServer();
+
 
 
