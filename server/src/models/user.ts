@@ -4,8 +4,8 @@ export interface IUser extends Document {
     username: string;
     email: string;
     password: string;
-    searchhistory: string[];
-    favSquirrels: string[];
+    searchhistory?: string[];
+    favSquirrels?: string[];
     // favSquirrels: [{ type: Schema.Types.ObjectId, ref: "FavSquirrels" }],
 
 }

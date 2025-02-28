@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node server/server.js",
+        "start": "node server/dist/server.js",
         "start:dev": "concurrently \"cd server && npm run watch\" \"wait-on tcp:3001 && cd client && npm run dev\"",
         "server": "cd server && npm start",
         "server:dev": "cd server && npm run dev",
@@ -27,5 +27,7 @@
     "dependencies": {
         "apollo-server-express": "^3.13.0",
         "graphql": "^16.10.0"
+        "concurrently": "^8.2.2",
+        "wait-on": "^7.2.0"
     }
 }
