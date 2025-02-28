@@ -5,15 +5,8 @@ import path from 'node:path';
 import db from './config/connection.js'
 import { ApolloServer } from '@apollo/server';
 import { typeDefs, resolvers } from './schemas/index.js';
-// import { expressMiddleware } from '@apollo/server/express4';
+import { expressMiddleware } from '@apollo/server/express4';
 // import { authenticateToken } from './utils/auth.js';
-
-// await db();
-// const app = express();
-
-// app.get("/", (_req: Request, res: Response) => res.send("Hello World!"));
-
-// app.listen(3000, () => console.log("Server running on port 3000"));
 
 dotenv.config();
 
@@ -31,12 +24,11 @@ const startApolloServer = async () => {
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
-
-//   app.use('/graphql', expressMiddleware(server as any,
-//     {
-//       context: authenticateToken as any
-//     }
-//   ));
+  app.use('/graphql', expressMiddleware(server as any,
+    // {
+    //   context: authenticateToken as any
+    // }
+  ));
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
