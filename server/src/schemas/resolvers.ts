@@ -6,7 +6,7 @@ import User, { IUser } from "../models/user.js";
 const APP_TOKEN = process.env.APP_TOKEN as string;
 
 const resolvers = {
-  
+    
     Query: {
         //Query fot getting the entire user object based on the UUID
         findUser: async (_parent: any, { _id }: { _id: string }): Promise<IUser | null> => {
@@ -28,7 +28,7 @@ const resolvers = {
 
             return comments; // Return the array of comments
         },
-          getSquirrels: async() => {
+        getSquirrels: async () => {
             try {
                 const response = await fetch("https://data.cityofnewyork.us/resource/vfnx-vebw.json", {
                     headers: {
@@ -42,7 +42,7 @@ const resolvers = {
 
                 const squirrels: any[] = await response.json();
 
-                return squirrels.map((squirrel:any) => ({
+                return squirrels.map((squirrel: any) => ({
                     squirrelUUID: squirrel.unique_squirrel_id,
                     squirrelName: "Unknown",
                     primaryFurColor: squirrel.primary_fur_color || "Unknown",
@@ -59,7 +59,7 @@ const resolvers = {
 
                 }));
             } catch (error) {
-                console.error ("Error getting squirrels",error);
+                console.error("Error getting squirrels", error);
                 throw new Error("Failed to get squirrels");
             }
         },
