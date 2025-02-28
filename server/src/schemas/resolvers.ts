@@ -1,7 +1,7 @@
 // import { Query } from "mongoose";
-import Comments, { IComment } from "../models/comments";
+import Comments, { IComment } from "../models/comments.js";
 // import FavSquirrels, { IFavSquirrels } from "../models/favsquirrels";
-import User, { IUser } from "../models/user";
+import User, { IUser } from "../models/user.js";
 
 const resolvers = {
     Query: {
@@ -49,9 +49,9 @@ const resolvers = {
             const newComment = await Comments.create({ username, squirrelUUID, textContent })
 
             return newComment;
-        }
+        },
 
-    }
-}
+    },
+};
 
-export default resolvers
+export default resolvers;

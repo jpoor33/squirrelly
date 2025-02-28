@@ -1,34 +1,32 @@
 import express from 'express';
 import type { Request, Response } from 'express';
-// import path from 'node:path';
+import path from 'node:path';
 import db from './config/connection.js'
-//import { ApolloServer } from '@apollo/server';// Note: Import from @apollo/server-express
-// // import { expressMiddleware } from '@apollo/server/express4';
-// // import { typeDefs, resolvers } from './schemas/index.js';
-// // import { authenticateToken } from './utils/auth.js';
-await db();
-const app = express();
+import { ApolloServer } from '@apollo/server';
+import { typeDefs, resolvers } from './schemas/index.js';
+// import { expressMiddleware } from '@apollo/server/express4';
+// import { authenticateToken } from './utils/auth.js';
+// await db();
+// const app = express();
 
-app.get("/", (_req: Request, res: Response) => res.send("Hello World!"));
+// app.get("/", (_req: Request, res: Response) => res.send("Hello World!"));
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+// app.listen(3000, () => console.log("Server running on port 3000"));
 
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+});
 
+const startApolloServer = async () => {
+  await server.start();
+  await db();
 
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers
-// });
+  const PORT = process.env.PORT || 3001;
+  const app = express();
 
-// const startApolloServer = async () => {
-//   await server.start();
-//   // await db();
-
-//   const PORT = process.env.PORT || 3001;
-//   const app = express();
-
-//   app.use(express.urlencoded({ extended: false }));
-//   app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
 
 //   app.use('/graphql', expressMiddleware(server as any,
 //     {
@@ -36,20 +34,20 @@ app.listen(3000, () => console.log("Server running on port 3000"));
 //     }
 //   ));
 
-//   if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static(path.join(__dirname, '../client/dist')));
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
 
-//     app.get('*', (_req: Request, res: Response) => {
-//       res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-//     });
-//   }
+    app.get('*', (_req: Request, res: Response) => {
+      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    });
+  }
 
-//   app.listen(PORT, () => {cd 
-//     console.log(`API server running on port ${PORT}!`);
-//     console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
-//   });
-// };
+  app.listen(PORT, () => { 
+    console.log(`API server running on port ${PORT}!`);
+    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+  });
+};
 
-// startApolloServer();
+startApolloServer();
 
 
