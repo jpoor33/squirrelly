@@ -1,6 +1,6 @@
 import { Schema, model, type Document } from 'mongoose';
 
-interface IComment extends Document { 
+export interface IComment extends Document { 
     squirrelUUID: string;
     textContent: string;
     username: string;

@@ -5,7 +5,7 @@ export interface IFavSquirrels extends Document {
     squirrelName: string;
     primaryFurColor: string;
     age: string;
-    actions: Record<string,boolean>;
+    actions: Record<string, boolean>;
     }
 
     const FavSquirrelsSchema = new Schema<IFavSquirrels>({
