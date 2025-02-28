@@ -2,8 +2,13 @@ const typeDefs = `
   type Comments {
     _id: ID!
     squirrelUUID: String!
-    textCOntent: String!
+    textContent: String!
     username: String!
+  }
+
+  type Action {
+  key: String!
+  value: Boolean!
   }
 
   type FavSquirrels {
@@ -12,7 +17,7 @@ const typeDefs = `
     squirrelName: String!
     primaryFurColor: String!
     age: String!
-    actions: Object!
+    actions: [Action!]
   }
 
   type User {

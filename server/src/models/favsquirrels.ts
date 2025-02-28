@@ -5,7 +5,7 @@ export interface IFavSquirrels extends Document {
     squirrelName: string;
     primaryFurColor: string;
     age: string;
-    actions: {};
+    actions: Record<string,boolean>;
     }
 
     const FavSquirrelsSchema = new Schema<IFavSquirrels>({
@@ -23,7 +23,8 @@ export interface IFavSquirrels extends Document {
             type: String,
         },
         actions: {
-            type: Object,
+            type: Map,
+            of: Boolean,
         },
     });
 
