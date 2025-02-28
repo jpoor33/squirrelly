@@ -1,17 +1,21 @@
 import express from 'express';
 import type { Request, Response } from 'express';
+import dotenv from "dotenv";
 import path from 'node:path';
 import db from './config/connection.js'
 import { ApolloServer } from '@apollo/server';
 import { typeDefs, resolvers } from './schemas/index.js';
 // import { expressMiddleware } from '@apollo/server/express4';
 // import { authenticateToken } from './utils/auth.js';
+
 // await db();
 // const app = express();
 
 // app.get("/", (_req: Request, res: Response) => res.send("Hello World!"));
 
 // app.listen(3000, () => console.log("Server running on port 3000"));
+
+dotenv.config();
 
 const server = new ApolloServer({
   typeDefs,
@@ -49,5 +53,3 @@ const startApolloServer = async () => {
 };
 
 startApolloServer();
-
-

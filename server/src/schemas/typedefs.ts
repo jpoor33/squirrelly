@@ -14,10 +14,11 @@ const typeDefs = `
   type FavSquirrels {
     _id: ID!
     squirrelUUID: String!
-    squirrelName: String!
+    squirrelName: String
     primaryFurColor: String!
     age: String!
-    actions: [Action!]
+    actions: [Action!]!
+    location: String!
   }
 
   type User {
@@ -27,6 +28,19 @@ const typeDefs = `
     password: String!
     searchhistory: [String!]
     favSquirrels: [String!]
+  }
+
+  type Squirrel {
+    squirrelUUID: String!
+    squirrelName: String!
+    primaryFurColor: String!
+    age: String!
+    actions: [Action!]
+    location: String!
+}
+  
+  type Query {
+    getSquirrels: [Squirrel!]!
   }
 
 `;

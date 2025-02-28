@@ -4,6 +4,7 @@ import Comments, { IComment } from "../models/comments.js";
 import User, { IUser } from "../models/user.js";
 
 const resolvers = {
+  const APP_TOKEN = process.env.APP_TOKEN as string;
     Query: {
         //Query fot getting the entire user object based on the UUID
         findUser: async (_parent: any, { _id }: { _id: string }): Promise<IUser | null> => {
@@ -24,6 +25,41 @@ const resolvers = {
             const comments = await Comments.find({ squirrelUUID: _id }).exec();
 
             return comments; // Return the array of comments
+        },
+          getSquirrels: async() => {
+            try {
+                const response = await fetch("https://data.cityofnewyork.us/resource/vfnx-vebw.json", {
+                    headers: {
+                        "X-App-Token": APP_TOKEN,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("failed API repsonse")
+                }
+
+                const squirrels: any[] = await response.json();
+
+                return squirrels.map((squirrel:any) => ({
+                    squirrelUUID: squirrel.unique_squirrel_id,
+                    squirrelName: "Unknown",
+                    primaryFurColor: squirrel.primary_fur_color || "Unknown",
+                    age: squirrel.age || "Unknown",
+                    actions: {
+                        running: squirrel.running === "true" || squirrel.running === true,
+                        chasing: squirrel.chasing === "true" || squirrel.chasing === true,
+                        eating: squirrel.eating === "true" || squirrel.eating === true,
+                        foraging: squirrel.foraging === "true" || squirrel.foraging === true,
+                        climbing: squirrel.climbing === "true" || squirrel.climbing === true,
+                    },
+                    location: squirrel.location || "Unknown",
+
+
+                }));
+            } catch (error) {
+                console.error ("Error getting squirrels",error);
+                throw new Error("Failed to get squirrels");
+            }
         },
     },
     Mutation: {
