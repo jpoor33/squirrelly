@@ -1,23 +1,27 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import React, { useEffect, useState } from 'react';
+import SearchBar from '@/components/SearchBar';
+import SquirrelCard from '@/components/SquirrelCard';
 
 const Home: React.FC = () => {
+  // For demonstration, we're creating an array of 10 items.
+  const [cards, setCards] = useState<number[]>([]);
+
+  useEffect(() => {
+    // Generate 10 dummy items (you can replace this with your fetched data)
+    const dummyCards = Array.from({ length: 10 }, (_, index) => index);
+    setCards(dummyCards);
+  }, []);
+
   return (
     <div className="container mx-auto p-8">
-      <Card className="shadow-md">
-        <CardHeader>
-          <h1 className="text-3xl font-bold">Welcome to Central Park Squirrel Finder</h1>
-        </CardHeader>
-        <CardContent>
-          <p className="text-base leading-relaxed">
-            Find your favorite squirrels and check out their latest activities!
-          </p>
-          <Button className="mt-4">
-            Explore Now
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="mb-8">
+        <SearchBar onSearch={(query) => console.log('Search query:', query)} />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {cards.map((card) => (
+          <SquirrelCard key={card} />
+        ))}
+      </div>
     </div>
   );
 };
