@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "node server/dist/server.js",
-        "start:dev": "concurrently \"cd server && npm run watch\" \"wait-on tcp:3001 && cd client && npm run dev\"",
+        "start:dev": "concurrently \"cd server && npm run dev\" \"wait-on tcp:3001 && cd client && npm run dev\"",
         "server": "cd server && npm start",
         "server:dev": "cd server && npm run dev",
         "install": "cd server && npm i && cd ../client && npm i",
@@ -25,9 +25,10 @@
         "wait-on": "^7.2.0"
     },
     "dependencies": {
+        "@apollo/client": "^3.13.1",
         "apollo-server-express": "^3.13.0",
-        "graphql": "^16.10.0",
         "concurrently": "^8.2.2",
+        "graphql": "^16.10.0",
         "wait-on": "^7.2.0"
     }
 }
