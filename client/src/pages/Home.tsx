@@ -1,25 +1,45 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import React, { useEffect, useState } from 'react';
+import SearchBar from '@/components/SearchBar';
+import SquirrelCard from '@/components/SquirrelCard';
+import { fetchSquirrels } from '@/utils/api';
 
-const Home: React.FC = () => {
+interface Squirrel {
+  squirrelUUID: string;
+  squirrelName: string;
+  primaryFurColor: string;
+  age: string;
+  actions: string[];
+  location: string;
+}
+
+const SquirrelList: React.FC = () => {
+  // For demonstration, we're creating an array of 10 items.
+  const [squirrels, setSquirrels] = useState<Squirrel[]>([]);
+
+  useEffect(() => {
+    // Generate 10 dummy items (you can replace this with your fetched data)
+    const getSquirrels = async () => {
+      const data = await fetchSquirrels();
+      setSquirrels(data);
+    };
+
+    getSquirrels();
+  
+  },[]);
+
+
   return (
     <div className="container mx-auto p-8">
-      <Card className="shadow-md">
-        <CardHeader>
-          <h1 className="text-3xl font-bold">Welcome to Central Park Squirrel Finder</h1>
-        </CardHeader>
-        <CardContent>
-          <p className="text-base leading-relaxed">
-            Find your favorite squirrels and check out their latest activities!
-          </p>
-          <Button className="mt-4">
-            Explore Now
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="mb-8">
+        <SearchBar onSearch={(query) => console.log('Search query:', query)} />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {squirrels.map((squirrel) => (
+          <SquirrelCard key={squirrel.squirrelUUID} {}/>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default Home;
+export default SquirrelList;
