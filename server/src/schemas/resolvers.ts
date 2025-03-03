@@ -2,6 +2,7 @@
 import Comments, { IComment } from "../models/comments.js";
 // import FavSquirrels, { IFavSquirrels } from "../models/favsquirrels";
 import User, { IUser } from "../models/user.js";
+import { faker } from '@faker-js/faker';
 
 const APP_TOKEN = "DzPQYwjBW9vgaLpcrQ6qzKuaY";
 
@@ -44,7 +45,7 @@ const resolvers = {
 
                 return squirrels.map((squirrel: any) => ({
                     squirrelUUID: squirrel.unique_squirrel_id,
-                    squirrelName: "Unknown",
+                    squirrelName: faker.person.firstName(),
                     primaryFurColor: squirrel.primary_fur_color || "Unknown",
                     age: squirrel.age || "Unknown",
                     actions: [
