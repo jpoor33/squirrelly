@@ -1,23 +1,36 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import SignIn from './pages/SignIn';
-import Dashboard from './pages/Dashboard';
+import { Outlet } from 'react-router-dom';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+} from '@apollo/client';
+// import SignIn from './pages/SignIn';
+// import Dashboard from './pages/Dashboard';
+
+const client = new ApolloClient({
+  uri: '/graphql',
+  cache: new InMemoryCache(),
+});
 
 const App: React.FC = () => {
   return (
-    <Router>
+      <ApolloProvider client={client}>
       <Navbar />
-      <div className="p-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
+      <Outlet />
+      {/* <Dashboard /> */}
+      {/* <SignIn /> */}
+      <div className="p-4">    
       </div>
-    </Router>
+    </ApolloProvider>
   );
 };
 
 export default App;
+
+
+/* <Routes> */
+/* <Route path="/" element={<Home />} />
+<Route path="/signin" element={<SignIn />} />
+<Route path="/dashboard" element={<Dashboard />} /> */
+// </Routes>
