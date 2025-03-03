@@ -1,28 +1,30 @@
-import React from 'react';
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import React from "react";
 
-interface SquirrelCardProps {
-//props
+interface Squirrel {
+    squirrelUUID: string;
+    squirrelName: string;
+    primaryFurColor: string;
+    age: string;
+    actions: string[];
+    location: string;
 }
 
-const SquirrelCard: React.FC<SquirrelCardProps> = () => {
-  return (
-    <Card className="shadow-md">
-      <CardHeader>
-        <h2 className="text-xl font-bold "
-        style={{ color: 'var(--primary)' }}>Squirrel Name</h2>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm">
-          This is a squirrel card.
-        </p>
-      </CardContent>
-      <CardFooter>
-        <Button variant="default">View Details</Button>
-      </CardFooter>
-    </Card>
-  );
+//needs to be styled as a card
+const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFurColor, age, actions, location  }) => {
+    return (
+        <div>
+            <section className="card-header">
+                <h1> {squirrelName}</h1>
+                <h2> {squirrelUUID}</h2>
+            </section>
+            <section className="card-body"> 
+                <p> {age} </p>
+                <p> {primaryFurColor} </p>
+                <p> {location} </p>
+                <p> {actions} </p>
+            </section>
+        </div>
+    );
 };
 
 export default SquirrelCard;
