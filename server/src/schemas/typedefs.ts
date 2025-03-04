@@ -45,6 +45,7 @@ const typeDefs = `
     findUser(_id: ID!): User
     findComments(_id: ID!): [Comments!]!
     getSquirrels: [Squirrel!]!
+    getSingleSquirrel(_id: ID!): Squirrel!
   }
 
   type Mutation {
