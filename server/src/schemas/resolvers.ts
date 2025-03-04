@@ -1,6 +1,6 @@
 // import { Query } from "mongoose";
 import Comments, { IComment } from "../models/comments.js";
-// import FavSquirrels, { IFavSquirrels } from "../models/favsquirrels";
+import FavSquirrels, { IFavSquirrels } from "../models/favsquirrels.js";
 import User, { IUser } from "../models/user.js";
 import { faker } from '@faker-js/faker';
 
@@ -58,6 +58,43 @@ const resolvers = {
                     location: squirrel.location || " ",
 
                 }));
+            } catch (error) {
+                console.error("Error getting squirrels", error);
+                throw new Error("Failed to get squirrels");
+            }
+        },
+        getSingleSquirrel: async (_parent: any, { _id }: { _id: string }): Promise<IFavSquirrels | null> => {
+            try {
+                const response = await fetch("https://data.cityofnewyork.us/resource/vfnx-vebw.json", {
+                    headers: {
+                        "X-App-Token": APP_TOKEN,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("failed API repsonse")
+                }
+                // console.log(response);
+                const squirrels: any[] = await response.json();
+                // console.log(squirrels);
+
+                const squirrel = squirrels.find((squirrel) => squirrel.unique_squirrel_id == _id);
+
+                return new FavSquirrels ({
+                    squirrelUUID: squirrel.unique_squirrel_id,
+                    squirrelName: faker.person.firstName(),
+                    primaryFurColor: squirrel.primary_fur_color || " ",
+                    age: squirrel.age || " ",
+                    actions: [
+                        squirrel.running === "true" || squirrel.running === true ? "running" : null,
+                        squirrel.chasing === "true" || squirrel.chasing === true ? "chasing" : null,
+                        squirrel.eating === "true" || squirrel.eating === true ? "eating" : null,
+                        squirrel.foraging === "true" || squirrel.foraging === true ? "foraging" : null,
+                        squirrel.climbing === "true" || squirrel.climbing === true ? "climbing" : null,
+                    ].filter(Boolean),
+                    location: squirrel.location || " ",
+                });
+
             } catch (error) {
                 console.error("Error getting squirrels", error);
                 throw new Error("Failed to get squirrels");
