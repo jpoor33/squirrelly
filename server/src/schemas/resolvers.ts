@@ -57,7 +57,6 @@ const resolvers = {
                     ].filter(Boolean),
                     location: squirrel.location || "Unknown",
 
-
                 }));
             } catch (error) {
                 console.error("Error getting squirrels", error);
