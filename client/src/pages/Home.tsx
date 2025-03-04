@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@apollo/client';
 import SearchBar from '@/components/SearchBar';
 import SquirrelCard from '@/components/SquirrelCard';
-import { fetchSquirrels } from '@/utils/api';
+import { GET_SQUIRRELS } from '@/utils/queries';
 
 interface Squirrel {
   squirrelUUID: string;
@@ -13,19 +14,18 @@ interface Squirrel {
 }
 
 const SquirrelList: React.FC = () => {
+
+  const { loading, data } = useQuery(GET_SQUIRRELS);
+  
+  if (loading) {
+    return <div>Squirrel data is loading...</div>;
+  }
+
   // For demonstration, we're creating an array of 10 items.
+  
   const [squirrels, setSquirrels] = useState<Squirrel[]>([]);
 
-  useEffect(() => {
-    // Generate 10 dummy items (you can replace this with your fetched data)
-    const getSquirrels = async () => {
-      const data = await fetchSquirrels();
-      setSquirrels(data);
-    };
-
-    getSquirrels();
-  
-  },[]);
+  setSquirrels(data);
 
 
   return (
@@ -35,7 +35,7 @@ const SquirrelList: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {squirrels.map((squirrel) => (
-          <SquirrelCard key={squirrel.squirrelUUID} {}/>
+          <SquirrelCard squirrelUUID={squirrel.squirrelUUID} squirrelName={squirrel.squirrelName} primaryFurColor={squirrel.primaryFurColor} age = {squirrel.age} location = {squirrel.location} actions={squirrel.actions}/>
         ))}
       </div>
     </div>
