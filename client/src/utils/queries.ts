@@ -4,13 +4,12 @@ import { gql } from '@apollo/client'
 export const GET_SQUIRRELS = gql`
 query GetSquirrels {
   getSquirrels {
-    actions
-    age
-    location
-    primaryFurColor
-    squirrelName
     squirrelUUID
-    squirrelImage
+    squirrelName
+    primaryFurColor
+    age
+    actions
+    location
   }
 }`
 
