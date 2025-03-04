@@ -79,7 +79,7 @@ const resolvers = {
                 { new: true } // This option returns the updated document
             );
 
-            return newFavSquirrel
+            return newFavSquirrel;
         },
 
         // Mutation to for adding a comment to a squirrel (will requrie a squirrel UUID and the comment from the users input)

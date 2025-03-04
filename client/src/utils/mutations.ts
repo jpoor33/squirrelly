@@ -12,3 +12,10 @@ mutation AddComment($username: String!, $squirrelUuid: String!, $textContent: St
   }
 }`
 
+export const FAV_SQUIRREL = gql`
+mutation AddSquirrel($_id: ID!, $squirrelUUID: String!) {
+  addFavSquirrels(_id: $ID, squirrelUUID: $squirrelUUID) {
+    _id
+    squirrelUUID
+  }
+}`
