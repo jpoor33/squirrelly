@@ -1,19 +1,36 @@
-import { Link, useLocation  } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import squirrelIcon from '@/assets/squirrel.svg';
+import userIcon from '@/assets/useravatar.svg';
 import styles from './Navbar.module.css';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 
 const Navbar: React.FC = () => {
   const token = localStorage.getItem('loginToken');
+
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('loginToken');
+    navigate('/login');
+  };
 
   return (
-    <nav className="flex items-center justify-between p-4 bg-gray-100">
+    <nav className="flex items-center justify-between p-4 bg-gradient-to-r from-amber-50 to-amber-200">
       <div className="flex items-center space-x-2">
-        <img src={squirrelIcon} alt="Squirrel Logo" className="h-12 w-12" />
+        <Link to="/">
+        <img src={squirrelIcon} alt="Squirrel Logo"
+         className={`"h-10 w-10 cursor-pointer ${styles.squirrelIcon}`} />
+        </Link>
         <Link to="/" className="cursor-pointer">
           <span
-            className="text-5xl"
+            className="text-4xl"
             style={{ fontFamily: "'Bagel Fat One', cursive", color: 'var(--primary)' }}
           >
             Squirrelly
@@ -21,15 +38,37 @@ const Navbar: React.FC = () => {
         </Link>
       </div>
       <div className="flex space-x-4">
+       
+        <Link to="/about">
+          <Button variant="link" className={styles.navbarButton}>About Us</Button>
+        </Link>
         {!token && location.pathname !== "/signin" && (
-          <Link to="/signin">
+          <Link to="/login">
             <Button variant="link" className={styles.navbarButton}>Sign In</Button>
           </Link>
         )}
-        {token && (
-          <Link to="/dashboard">
-            <Button variant="link" className={styles.navbarButton}>Dashboard</Button>
-          </Link>
+         {token && (
+          <>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="link" className={styles.navbarButton}>
+                  <img
+                    src={userIcon}
+                    alt="User Icon"
+                    className={`"h-10 w-10 cursor-pointer ${styles.squirrelIcon}`}
+                  />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+              <DropdownMenuItem asChild>
+                  <Link to="/user">My profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
         )}
       </div>
     </nav>
