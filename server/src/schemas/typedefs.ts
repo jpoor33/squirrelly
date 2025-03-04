@@ -15,6 +15,7 @@ const typeDefs = `
     _id: ID!
     squirrelUUID: String!
     squirrelName: String
+    squirrelImage: String
     primaryFurColor: String!
     age: String!
     actions: [Action!]!
@@ -33,6 +34,7 @@ const typeDefs = `
   type Squirrel {
     squirrelUUID: String!
     squirrelName: String
+    squirrelImage: String
     primaryFurColor: String!
     age: String!
     actions: [String]

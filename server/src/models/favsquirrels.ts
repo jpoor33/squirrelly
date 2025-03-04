@@ -3,6 +3,7 @@ import { Schema, model, type Document } from 'mongoose';
 export interface IFavSquirrels extends Document {
     squirrelUUID: string;
     squirrelName: string;
+    squirrelImage: string;
     primaryFurColor: string;
     age: string;
     actions: Record<string, boolean>;
@@ -14,6 +15,9 @@ export interface IFavSquirrels extends Document {
             required: true,
         },
         squirrelName: {
+            type: String,
+        },
+        squirrelImage: {
             type: String,
         },
         primaryFurColor: {
