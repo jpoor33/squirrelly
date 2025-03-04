@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import SearchBar from '@/components/SearchBar';
 import SquirrelCard from '@/components/SquirrelCard';
@@ -16,17 +15,13 @@ interface Squirrel {
 const SquirrelList: React.FC = () => {
 
   const { loading, data } = useQuery(GET_SQUIRRELS);
+
   
+  const SquirrelArray: Squirrel[] = data?.getSquirrels || [];
+
   if (loading) {
     return <div>Squirrel data is loading...</div>;
   }
-
-  // For demonstration, we're creating an array of 10 items.
-  
-  const [squirrels, setSquirrels] = useState<Squirrel[]>([]);
-
-  setSquirrels(data);
-
 
   return (
     <div className="container mx-auto p-8">
@@ -34,7 +29,7 @@ const SquirrelList: React.FC = () => {
         <SearchBar onSearch={(query) => console.log('Search query:', query)} />
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {squirrels.map((squirrel) => (
+        {SquirrelArray.map((squirrel) => (
           <SquirrelCard squirrelUUID={squirrel.squirrelUUID} squirrelName={squirrel.squirrelName} primaryFurColor={squirrel.primaryFurColor} age = {squirrel.age} location = {squirrel.location} actions={squirrel.actions}/>
         ))}
       </div>
