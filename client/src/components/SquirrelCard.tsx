@@ -23,6 +23,9 @@ const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFu
                 <p> {location} </p>
                 <p> {actions} </p>
             </section>
+            <section className="card-button">
+                <button onClick= ""> Welcome to our website </button>
+            </section>
         </div>
     );
 };
