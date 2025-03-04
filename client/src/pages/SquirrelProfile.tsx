@@ -1,41 +1,37 @@
 import { useQuery } from "@apollo/client";
-import { GET_SQUIRRELS } from "@/utils/queries";
+import { GET_SINGLE_SQUIRREL } from "@/utils/queries";
 import { useParams } from "react-router-dom";
+import SquirrelProfile from "@/components/SquirrelProfile";
 
-const Profile  = () => {
+const Profile = () => {
     const { squirrelUUID } = useParams<{ squirrelUUID: string }>();
 
-const { loading, data } = useQuery(GET_SQUIRRELS);
+    const { loading, data } = useQuery(GET_SINGLE_SQUIRREL, {
+        variables: { squirrelUUID: squirrelUUID },
+    });
 
-if (loading) {
-    return <div>Squirrel data is loading...</div>;
-  }
+    const squirrel = data?.getSingleSquirrel || {};
 
-// need to find individual squirrel, assign to const squirrelInfo
-const squirrelInfo = data?.getSquirrels.find (
-    (squirrel: any) => squirrel.squirrelUUID == squirrelUUID
-);
+    if (loading) {
+        return <div>Squirrel data is loading...</div>;
+    }
 
-if (!squirrelInfo?.squirrelName) {
     return (
-        <h4>
-            That squirrel does not live in Central Park! Head back to explore others.
-        </h4>
-    )
-}
-
-console.log(squirrelInfo);
-
-// do we want to search by id? if so...
-// if ( ().data._id === squirrelUUID) {
-//     return <Navigate to = '/:' />
-// }
-
-return (
-    <div>
-        <h2> { squirrelInfo.squirrelName } </h2>;
-    </div>
-)
+        <div>
+            {squirrel ? (
+                <SquirrelProfile
+                    squirrelUUID={squirrel.squirrelUUID}
+                    squirrelName={squirrel.squirrelName}
+                    primaryFurColor={squirrel.primaryFurColor}
+                    age={squirrel.age}
+                    location={squirrel.location}
+                    actions={squirrel.actions}
+                />
+            ) : (
+                <h4>That squirrel does not live in Central Park! Head back to explore others.</h4>
+            )}
+        </div>
+    );
 };
 
 export default Profile;
