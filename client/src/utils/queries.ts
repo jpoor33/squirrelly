@@ -14,8 +14,8 @@ query GetSquirrels {
 }`
 
 export const GET_SINGLE_SQUIRREL = gql`
-query getSingleSquirrel($squirrelUUID: ID!) {
-  getSingleSquirrel (squirrelUUID: $squirrelUUID) {
+query getSingleSquirrel($id: ID!) {
+  getSingleSquirrel (_id: $id) {
     squirrelUUID
     squirrelName
     primaryFurColor
