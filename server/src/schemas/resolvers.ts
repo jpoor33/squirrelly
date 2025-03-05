@@ -126,6 +126,8 @@ const resolvers = {
 
                 const squirrel = squirrels.find((squirrel) => squirrel.unique_squirrel_id == _id);
 
+                const comments = await Comments.find({ squirrelUUID: _id }).exec();
+
                 return new FavSquirrels ({
                     squirrelUUID: squirrel.unique_squirrel_id,
                     squirrelName: faker.person.firstName(),
@@ -139,6 +141,7 @@ const resolvers = {
                         squirrel.climbing === "true" || squirrel.climbing === true ? "climbing" : null,
                     ].filter(Boolean),
                     location: squirrel.location || " ",
+                    comments,
                 });
 
             } catch (error) {

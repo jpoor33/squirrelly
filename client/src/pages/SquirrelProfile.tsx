@@ -3,21 +3,18 @@ import { GET_SINGLE_SQUIRREL } from "@/utils/queries";
 import { useParams } from "react-router-dom";
 import SquirrelProfile from "@/components/SquirrelProfile";
 import SquirrelComments from "@/components/Comment";
+import CommentForm from "@/components/CommentForm";
 
 const Profile = () => {
     const { id } = useParams<{ id: string }>();
 
     const { loading, data } = useQuery(GET_SINGLE_SQUIRREL, {
-        variables: { _id: id }, 
+        variables: { _id: id },
     });
 
     const squirrel = data?.getSingleSquirrel || {};
 
-    // console.log("Squirrel ID from useParams:", id);
-    // console.log("Raw Apollo data:", data);
-    console.log("Squirrel Data:", squirrel);
-
-    //SQUIRREL NAME IS RETURNING UNDEFINED...
+    //squirrel name is returning undefined?
     console.log("Squirrel Name:", squirrel.squirrelName);
 
     console.log(squirrel);
@@ -29,24 +26,18 @@ const Profile = () => {
     return (
         <div>
             {squirrel ? (
-                <div> 
-                <SquirrelProfile
-                    squirrelUUID={squirrel.squirrelUUID}
-                    squirrelName={squirrel.squirrelName}
-                    primaryFurColor={squirrel.primaryFurColor}
-                    age={squirrel.age}
-                    location={squirrel.location}
-                    actions={squirrel.actions}
-                />
-
-                    {/* access the array of squirrels comments - for each comment, run the call back function with props as parameters. Each "comment" has these props, and an index of where it is in the array. */}
-                    {squirrel.comments?.map((comment: { username: string; textContent: string }, index: number) => (
-                        <SquirrelComments
-                            key={index}
-                            username={comment.username}
-                            textContent={comment.textContent} />
-                    ))}
-            </div>
+                <div>
+                    <SquirrelProfile
+                        squirrelUUID={squirrel.squirrelUUID}
+                        squirrelName={squirrel.squirrelName}
+                        primaryFurColor={squirrel.primaryFurColor}
+                        age={squirrel.age}
+                        location={squirrel.location}
+                        actions={squirrel.actions}
+                    />
+                    <SquirrelComments comments={squirrel.comments} />
+                    <CommentForm />
+                </div>
 
             ) : (
                 <h4>That squirrel does not live in Central Park! Head back home explore others.</h4>

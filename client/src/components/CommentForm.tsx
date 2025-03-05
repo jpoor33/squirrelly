@@ -1,47 +1,69 @@
-// import { useMutation } from "@apollo/client";
-// import { ADD_COMMENT } from "@/utils/mutations";
-// import { GET_SINGLE_SQUIRREL } from "@/utils/queries";
-// import { useState } from "react";
+import { useState, type FormEvent, type ChangeEvent } from 'react';
+import { useMutation } from '@apollo/client';
+import { ADD_COMMENT } from '@/utils/mutations';
 
-// // interface CommentFormInfo {
-// //     squirrelId: string
-// // }
+const CommentForm = ({ username, squirrelID }: any) => {
+  const [commentText, setCommentText] = useState('');
+//   const [characterCount, setCharacterCount] = useState(0);
 
+  const [addComment] = useMutation(ADD_COMMENT);
 
-// // COMMENTING OUT FOR NOW -- MAR NEEDS TO EDIT
+  const handleFormSubmit = async (event: FormEvent) => {
+    event.preventDefault();
 
-// // creating a form that accepts the squirrelId as props (destructed)
-// const CommentForm: REACT.FC<CommentFormProps> = ({ squirrelID }) => {
+    try {
+      await addComment({
+        variables: { 
+          squirrelID, username 
+        }
+      });
 
-//     //initialize state with empty string, comments will be passed through to update the CommentText
-//     const [commentText, setCommentText] = useState("");
+      setCommentText('');
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-//     // send the GraphQL mutation to Apollo Client and send in variables with mutation
-//     const [addComment] = useMutation(ADD_COMMENT, {
-//         variables: { squirrelId, textContent: commentText },
-//         refetchQueries: [{ query: GET_SINGLE_SQUIRREL, variables: { _id: squirrelId } }], // refetch the squirrel data to include the new comment
-//         onCompleted: () => setCommentText(""), // clear the input after the comment is added
-//     });
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
 
-//     const handleSubmit = (event: React.FormEvent) => {
-//         event.preventDefault();
-//         if (commentText.trim()) {
-//             addComment();
-//         }
-//     }
+    if (name === 'commentText' && value.length <= 280) {
+      setCommentText(value);
+    //   setCharacterCount(value.length);
+    }
+  };
 
-//     return (
-//         <form onSubmit={handleSubmit}>
-//             <textarea
-//                 value={commentText}
-//                 onChange={(event) => setCommentText(event.target.value)}
-//                 placeholder="Add a comment here..."
-//                 rows={4}
-//             />    
-//             <button type="submit">Submit</button>
-//         </form>
-//     );
-// };
+  return (
+    <div>
+      <h4>Add a comment about this squirrel...</h4>
+      {/* <p
+        className={`m-0 ${
+          characterCount === 280 || error ? 'text-danger' : ''
+        }`}
+      >
+        Character Count: {characterCount}/280
+        {error && <span className="ml-2">Something went wrong...</span>}
+      </p> */}
+      <form
+        onSubmit={handleFormSubmit}
+      >
+        <div>
+          <textarea
+            name="commentText"
+            placeholder="What are your thoughts?"
+            value={commentText}
+            onChange={handleChange}
+          ></textarea>
+        </div>
 
-// export default CommentForm;
+        <div>
+          <button className="btn btn-primary btn-block py-3" type="submit">
+            Add Comment
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
+export default CommentForm;
