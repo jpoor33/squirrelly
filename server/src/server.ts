@@ -41,7 +41,7 @@ const startApolloServer = async () => {
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
     app.get('*', (_req: Request, res: Response) => {
-      const filePath = path.resolve(__dirname, '../client/dist/index.html');
+      const filePath = path.resolve(process.cwd(), 'client/dist/index.html');
       console.log("Serving index.html from:", filePath);
       res.sendFile(filePath, (err) => {
         if (err) {
