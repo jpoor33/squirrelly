@@ -1,5 +1,3 @@
-import React from "react";
-
 interface Squirrel {
     squirrelUUID: string;
     squirrelName: string;
@@ -7,10 +5,12 @@ interface Squirrel {
     age: string;
     actions: string[];
     location: string;
+    isFavorited: boolean;
+    onToggleFavorite: (squirrelUUID: string) => void;
 }
 
 //needs to be styled as a card
-const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFurColor, age, actions, location  }) => {
+const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFurColor, age, actions, location,isFavorited,onToggleFavorite  }) => {
     return (
         <div>
             <section className="card-header">
@@ -22,6 +22,9 @@ const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFu
                 <p> {primaryFurColor} </p>
                 <p> {location} </p>
                 <p> {actions} </p>
+                <button onClick={() => onToggleFavorite(squirrelUUID)}>
+                    {isFavorited ? "Favorited" : "Favorite?"}
+                </button>
             </section>
         </div>
     );

@@ -61,8 +61,53 @@ const resolvers = {
             } catch (error) {
                 console.error("Error getting squirrels", error);
                 throw new Error("Failed to get squirrels");
+
+                
             }
         },
+
+        getUserFavorites: async (_parent: any, { username }: {username:string}) => {
+            const user = await User.findOne({username});
+            if(!user) throw new Error("User not found");
+
+            const response = await fetch("https://data.cityofnewyork.us/resource/vfnx-vebw.json", {
+                headers: {
+                    "X-App-Token": APP_TOKEN,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("failed API repsonse")
+            }
+
+            const squirrels: any[] = await response.json();
+
+            const allSquirrels = squirrels.map((squirrel:any) => ({
+
+                squirrelUUID: squirrel.unique_squirrel_id,
+                    squirrelName: faker.person.firstName(),
+                    primaryFurColor: squirrel.primary_fur_color || " ",
+                    age: squirrel.age || " ",
+                    actions: [
+                        squirrel.running === "true" || squirrel.running === true ? "running" : null,
+                        squirrel.chasing === "true" || squirrel.chasing === true ? "chasing" : null,
+                        squirrel.eating === "true" || squirrel.eating === true ? "eating" : null,
+                        squirrel.foraging === "true" || squirrel.foraging === true ? "foraging" : null,
+                        squirrel.climbing === "true" || squirrel.climbing === true ? "climbing" : null,
+                    ].filter(Boolean),
+                    location: squirrel.location || " ",
+
+            }));
+
+            return allSquirrels.filter(squirrel => user.favSquirrels?.includes(squirrel.squirrelUUID))
+
+
+           
+        },
+
+        getAllUsers: async() => {
+            return await User.find({});
+        }
     },
     Mutation: {
         //Mutation to create a user account (will require Username, Email, & Password)
@@ -72,14 +117,25 @@ const resolvers = {
             return newUser
         },
         //Mutation for appending favorite squirrels to the favorite squirrel array in user profiles (will requre the squirrel fovorite UUID)
-        addFavSquirrels: async (_parent: any, { _id, squirrelUUID }: { _id: string, squirrelUUID: string }): Promise<IUser | null> => {
-            const newFavSquirrel = await User.findByIdAndUpdate(
-                _id, // The ID of the user
-                { $push: { favSquirrels: squirrelUUID } }, // Use $push to append the squirrelUUID
-                { new: true } // This option returns the updated document
-            );
+        addFavSquirrels: async (_parent: any, { username, squirrelUUID }: { username: string, squirrelUUID: string }): Promise<IUser | null> => {
+            const user = await User.findOne({username});
 
-            return newFavSquirrel
+            if(!user) {
+                throw new Error("user does not exist")
+            }
+
+            user.favSquirrels ||= [];
+
+
+            if (user.favSquirrels.includes(squirrelUUID)) {
+                user.favSquirrels = user.favSquirrels.filter(uuid => uuid !== squirrelUUID);
+            } else {
+                user.favSquirrels.push(squirrelUUID);
+            }
+            
+
+            await user.save();
+            return user;
         },
 
         // Mutation to for adding a comment to a squirrel (will requrie a squirrel UUID and the comment from the users input)
