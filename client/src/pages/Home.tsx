@@ -18,7 +18,7 @@ interface Squirrel {
 const Home: React.FC = () => {
   const storedUserProfile = localStorage.getItem("userProfile");
   const userProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
-  const username = userProfile.name;
+  const username = userProfile?.name; 
 
   // GraphQL Queries & Mutations
   const { loading: squirrelloading, data: squirreldata } = useQuery(GET_SQUIRRELS);
