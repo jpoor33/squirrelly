@@ -1,7 +1,9 @@
 const AboutUs: React.FC = () => {
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-4">About Us</h1>
+    <div className="container min-h-screen mx-auto p-8">
+      <h1 
+      style={{ fontFamily: "'Bagel Fat One', cursive", color: 'var(--primary)' }}
+      className="text-4xl mb-4">About Us</h1>
       <p className="text-lg leading-relaxed">
         Welcome to Squirrelly! We are passionate about connecting squirrel lovers with the amazing wildlife in Central Park. Our mission is to help you find and learn about your favorite squirrels through real-time activity updates and community insights.
       </p>

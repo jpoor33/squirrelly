@@ -5,8 +5,7 @@ import SquirrelProfile from "@/components/SquirrelProfile";
 import SquirrelComments from "@/components/Comment";
 import CommentForm from "@/components/CommentForm";
 
-const Profile = () => {
-    const { id } = useParams<{ id: string }>();
+const Profile: React.FC = () => {
 
     const { loading, data } = useQuery(GET_SINGLE_SQUIRREL, {
         variables: { _id: id },
@@ -20,31 +19,34 @@ const Profile = () => {
     console.log(squirrel);
 
     if (loading) {
-        return <div>Squirrel data is loading...</div>;
-    }
-
-    return (
-        <div>
-            {squirrel ? (
-                <div>
-                    <SquirrelProfile
-                        squirrelUUID={squirrel.squirrelUUID}
-                        squirrelName={squirrel.squirrelName}
-                        primaryFurColor={squirrel.primaryFurColor}
-                        age={squirrel.age}
-                        location={squirrel.location}
-                        actions={squirrel.actions}
-                    />
-                    <SquirrelComments comments={squirrel.comments} />
+        return <div
+        className="flex justify-center p-8"
+        style={{ fontFamily: "'Bagel Fat One', cursive", color: "var(--primary)" }}
+      >
+        Squirrel data is loading...
+      </div>
+    };
+        
+  return (
+    <div className="container mx-auto p-4">
+      {squirrel ? (
+        <SquirrelProfile
+          squirrelUUID={squirrel.squirrelUUID}
+          squirrelName={squirrel.squirrelName}
+          primaryFurColor={squirrel.primaryFurColor}
+          age={squirrel.age}
+          location={squirrel.location}
+          actions={squirrel.actions}
+        />
+          <SquirrelComments comments={squirrel.comments} />
                     <CommentForm />
-                </div>
-
-            ) : (
-                <h4>That squirrel does not live in Central Park! Head back home explore others.</h4>
-            )}
-        </div>
-    );
+      ) : (
+        <h4 className="text-center">
+          That squirrel does not live in Central Park! Head back to explore others.
+        </h4>
+      )}
+    </div>
+  );
 };
 
 export default Profile;
-

@@ -1,12 +1,11 @@
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import { Outlet } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
 } from '@apollo/client';
-// import SignIn from './pages/SignIn';
-// import Dashboard from './pages/Dashboard';
 
 const client = new ApolloClient({
   uri: '/graphql',
@@ -18,8 +17,7 @@ const App: React.FC = () => {
       <ApolloProvider client={client}>
       <Navbar />
       <Outlet />
-      <div className="p-4">    
-      </div>
+      <Footer />
     </ApolloProvider>
   );
 };
