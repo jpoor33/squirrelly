@@ -1,17 +1,39 @@
-interface Squirrel {
+// import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
+import likeIcon from '@/assets/like-icon.svg';
+import styles from '../pages/User.module.css';
+// import { squirrelImages } from '@/utils/squirrelImages';
+
+
+interface DummySquirrelCardProps {
+    userUUID: string;
     squirrelUUID: string;
     squirrelName: string;
     primaryFurColor: string;
     age: string;
     actions: string[];
     location: string;
-    isFavorited: boolean;
-    onToggleFavorite: (squirrelUUID: string) => void;
-}
+    cardWidth?: string;
+    cardHeight?: string;
+    squirrelImage: string;
+  }
 
-//needs to be styled as a card
-const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFurColor, age, actions, location,isFavorited,onToggleFavorite  }) => {
-    return (
+  const DummySquirrelCard: React.FC<DummySquirrelCardProps> = ({
+    squirrelUUID,
+    squirrelName,
+    primaryFurColor,
+    age,
+    actions,
+    location,
+    cardWidth = "300px",
+    cardHeight = "450px",
+    squirrelImage,
+  }) => {
+    const favoriteSquirrel = () => {
+      alert(`Favorited: ${squirrelName}`);
+    };
+
+  return (
     <div 
     style={{ width: cardWidth, height: cardHeight }}
     className="bg-white rounded-lg shadow-sm p-6 flex flex-col justify-between transform transition-all duration-300 hover:bg-amber-100 hover:shadow-xl hover:-translate-y-1 hover:scale-101">
@@ -47,12 +69,8 @@ const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFu
           <img src={likeIcon} alt="Like" className="h-6 w-6" />
         </button>
       </div>
-      {error && (
-        <div className="mt-4 bg-red-500 text-white p-2 rounded">
-          Something went wrong...
-      )}
     </div>
   );
 };
 
-export default SquirrelCard;
+export default DummySquirrelCard;

@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
         </Link>
         <Link to="/" className="cursor-pointer">
           <span
-            className="text-4xl"
+            className="text-5xl"
             style={{ fontFamily: "'Bagel Fat One', cursive", color: 'var(--primary)' }}
           >
             Squirrelly
@@ -40,7 +40,9 @@ const Navbar: React.FC = () => {
       <div className="flex space-x-4">
        
         <Link to="/about">
-          <Button variant="link" className={styles.navbarButton}>About Us</Button>
+          <Button variant="link" 
+           style={{ fontFamily: "'Bagel Fat One', cursive", color: 'var(--primary)' }}
+          className={`${styles.navbarButton} text-xl`}>About Us</Button>
         </Link>
         {!token && location.pathname !== "/signin" && (
           <Link to="/login">
@@ -59,11 +61,15 @@ const Navbar: React.FC = () => {
                   />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-              <DropdownMenuItem asChild>
+              <DropdownMenuContent 
+                className="w-46 mt-1 mr-1 bg-amber-50">
+              <DropdownMenuItem asChild
+                className="hover:text-amber-700">
                   <Link to="/user">My profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleLogout}>
+                <DropdownMenuItem
+                className="hover:text-amber-700"
+                onClick={handleLogout}>
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>

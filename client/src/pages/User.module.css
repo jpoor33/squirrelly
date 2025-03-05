@@ -19,3 +19,18 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
+  .customLikeButton {
+    background-color: #fde68a !important; 
+    padding: 0.5rem !important;
+    border-radius: 9999px !important;
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+  .customLikeButton:hover {
+    background-color: #fbbf24!important; 
+  }
+
+  .containerDebug {
+    outline: 2px solid red;
+    background-color: black; 
+  }
