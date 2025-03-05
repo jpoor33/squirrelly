@@ -34,3 +34,15 @@ query FindComments($id: ID!) {
     username
   }
 }`
+
+export const GET_USER_FAVORITES = gql`
+query GetUserFavorites($username: String!) {
+  getUserFavorites(username: $username) {
+     squirrelUUID
+     squirrelName
+     primaryFurColor
+     age
+     actions
+     location
+    }
+  }`
