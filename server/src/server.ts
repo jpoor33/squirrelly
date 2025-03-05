@@ -14,6 +14,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+console.log('what is filename', __filename);
+console.log('what is -dirname', __dirname);
 
 const startApolloServer = async () => {
   await db();
@@ -37,11 +39,15 @@ const startApolloServer = async () => {
     // }
   ));
 
+  const filePath = path.resolve(process.cwd(), '/../client/dist/index.html');
+  console.log("Serving index.html from:", filePath);
+
+  
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
+    app.use(express.static(path.join(process.cwd(), '/../client/dist')));
 
     app.get('*', (_req: Request, res: Response) => {
-      const filePath = path.resolve(process.cwd(), 'client/dist/index.html');
+      const filePath = path.resolve(process.cwd(), '/../client/dist/index.html');
       console.log("Serving index.html from:", filePath);
       res.sendFile(filePath, (err) => {
         if (err) {
