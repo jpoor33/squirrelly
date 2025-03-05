@@ -47,7 +47,7 @@ const SignIn: React.FC = () => {
           />
         </div>
         <div className="flex flex-col gap-3">
-          <input 
+          <input   
             id="password"
             type="password"
             placeholder="Password"

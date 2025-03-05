@@ -1,45 +1,37 @@
-import { useMutation } from "@apollo/client";
-import { FAV_SQUIRREL } from "@/utils/mutations";
+// import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 import likeIcon from '@/assets/like-icon.svg';
 import styles from '../pages/User.module.css';
-import { Link } from "react-router-dom";
+// import { squirrelImages } from '@/utils/squirrelImages';
 
-interface Squirrel {
-  userUUID: string;
-  squirrelUUID: string;
-  squirrelName: string;
-  primaryFurColor: string;
-  age: string;
-  actions: string[];
-  location: string;
-  cardWidth?: string;
-  cardHeight?: string;
-  squirrelImage: string;
-}
 
-const SquirrelCard: React.FC<Squirrel> = ({
-  userUUID,
-  squirrelUUID,
-  squirrelName,
-  primaryFurColor,
-  age,
-  actions,
-  location,
-  cardWidth = "300px",  
-  cardHeight = "450px",
-  squirrelImage,
-}) => {
-  const [addFavorite, { error }] = useMutation(FAV_SQUIRREL);
+interface DummySquirrelCardProps {
+    userUUID: string;
+    squirrelUUID: string;
+    squirrelName: string;
+    primaryFurColor: string;
+    age: string;
+    actions: string[];
+    location: string;
+    cardWidth?: string;
+    cardHeight?: string;
+    squirrelImage: string;
+  }
 
-  const favoriteSquirrel = async () => {
-    try {
-      await addFavorite({
-        variables: { userUUID, squirrelUUID },
-      });
-    } catch (err: any) {
-      console.error("Error favoriting Squirrel:", err.message);
-    }
-  };
+  const DummySquirrelCard: React.FC<DummySquirrelCardProps> = ({
+    squirrelUUID,
+    squirrelName,
+    primaryFurColor,
+    age,
+    actions,
+    location,
+    cardWidth = "300px",
+    cardHeight = "450px",
+    squirrelImage,
+  }) => {
+    const favoriteSquirrel = () => {
+      alert(`Favorited: ${squirrelName}`);
+    };
 
   return (
     <div 
@@ -77,13 +69,8 @@ const SquirrelCard: React.FC<Squirrel> = ({
           <img src={likeIcon} alt="Like" className="h-6 w-6" />
         </button>
       </div>
-      {error && (
-        <div className="mt-4 bg-red-500 text-white p-2 rounded">
-          Something went wrong...
-        </div>
-      )}
     </div>
   );
 };
 
-export default SquirrelCard;
+export default DummySquirrelCard;

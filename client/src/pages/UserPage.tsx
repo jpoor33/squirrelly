@@ -7,12 +7,25 @@ import {
 } from '@/components/ui/dropdown-menu';
 import editIcon from '@/assets/edit-icon.svg';
 import styles from './User.module.css';
+import DummySquirrelCard from '@/components/DummyCard';
+import { squirrelImages } from '@/utils/squirrelImages';
+
+interface Squirrel {
+  userUUID: string;
+  squirrelUUID: string;
+  squirrelName: string;
+  primaryFurColor: string;
+  age: string;
+  actions: string[];
+  location: string;
+}
 
 interface UserData {
   name: string;
   email: string;
   bio?: string;
   avatarUrl?: string;
+  favorites?: Squirrel[];
 }
 
 const User: React.FC = () => {
@@ -45,13 +58,13 @@ const User: React.FC = () => {
     return <div className="p-8">No user data available</div>;
   }
   return (
-    <div className="container mx-auto p-4">
+    <div className="container min-h-screen mx-auto p-4">
       <div className="relative h-64 bg-gradient-to-r from-amber-100 to-amber-200 rounded mb-4">
         <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
           <div className="relative inline-block">
           <img
               src={user.avatarUrl || '/default-avatar.png'}
-              className="h-48 w-48 object-cover rounded-full border-4 border-white shadow-lg"
+              className="h-52 w-52 object-cover rounded-full border-4 border-white shadow-lg"
             />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -83,11 +96,27 @@ const User: React.FC = () => {
         </div>
       </div>
 
-      {/* Profile Info */}
       <div className="mt-20 text-center">
         <h1 className="text-3xl font-bold mb-2">Welcome, {user.name}</h1>
         {user.bio && <p className="text-gray-700 mb-4">{user.bio}</p>}
-        <p className="text-gray-900">Email: {user.email}</p>
+      </div>
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold mb-4 text-center">My Squirrels</h2>
+        {user.favorites && user.favorites.length > 0 ? (
+          <div className="grid grid-cols-3 gap-4">
+            {user.favorites.map((squirrel, index) => (
+              <DummySquirrelCard
+                key={index}
+                {...squirrel}
+                squirrelImage={squirrelImages[index % squirrelImages.length]}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-600">
+            You haven't favorited any squirrels yet.
+          </p>
+        )}
       </div>
     </div>
   );
