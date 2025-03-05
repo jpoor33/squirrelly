@@ -1,7 +1,8 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import SearchBar from '@/components/SearchBar';
 import SquirrelCard from '@/components/SquirrelCard';
-import { GET_SQUIRRELS } from '@/utils/queries';
+import { GET_SQUIRRELS, GET_USER_FAVORITES} from '@/utils/queries';
+import { ADD_FAV_SQUIRREL } from '@/utils/mutations';
 
 interface Squirrel {
   squirrelUUID: string;
@@ -13,15 +14,30 @@ interface Squirrel {
 }
 
 const SquirrelList: React.FC = () => {
+  const username = "pikachu"
 
-  const { loading, data } = useQuery(GET_SQUIRRELS);
+  const { loading:squirrelloading, data:squirreldata } = useQuery(GET_SQUIRRELS);
+
+  const { loading:faovritesloading, data: favoritesData,refetch} = useQuery(GET_USER_FAVORITES, {
+    variables: { username },
+  });
+
+  const [addFavSquirrel] = useMutation(ADD_FAV_SQUIRREL, {
+  onCompleted: () => refetch(),
+  });
+
+  if (squirrelloading || faovritesloading) {
+  return <div>Loading...</div>
+ }
 
   
-  const SquirrelArray: Squirrel[] = data?.getSquirrels || [];
+  const SquirrelArray:Squirrel[] = squirreldata?.getSquirrels || [];
+  const userFavorites = favoritesData?.getUserFavorites?.map((sq: {squirrelUUID:string}) => sq.squirrelUUID) || [];
 
-  if (loading) {
-    return <div>Squirrel data is loading...</div>;
-  }
+  const handleToggleFavorite = async (squirrelUUID: string) => {
+    await addFavSquirrel({ variables: { username, squirrelUUID}});
+  };
+
 
   return (
     <div className="container mx-auto p-8">
@@ -30,7 +46,7 @@ const SquirrelList: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {SquirrelArray.map((squirrel) => (
-          <SquirrelCard userUUID={"test"} squirrelUUID={squirrel.squirrelUUID} squirrelName={squirrel.squirrelName} primaryFurColor={squirrel.primaryFurColor} age = {squirrel.age} location = {squirrel.location} actions={squirrel.actions}/>
+          <SquirrelCard squirrelUUID={squirrel.squirrelUUID} squirrelName={squirrel.squirrelName} primaryFurColor={squirrel.primaryFurColor} age = {squirrel.age} location = {squirrel.location} actions={squirrel.actions} isFavorited={userFavorites.includes(squirrel.squirrelUUID)} onToggleFavorite={handleToggleFavorite}/>
         ))}
       </div>
     </div>

@@ -1,8 +1,3 @@
-import React from "react";
-import { useMutation } from "@apollo/client";
-import { FAV_SQUIRREL } from "@/utils/mutations";
-
-
 interface Squirrel {
     userUUID: string;
     squirrelUUID: string;
@@ -11,11 +6,14 @@ interface Squirrel {
     age: string;
     actions: string[];
     location: string;
+    isFavorited: boolean;
+    onToggleFavorite: (squirrelUUID: string) => void;
 }
 
 
 
 //needs to be styled as a card
+const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFurColor, age, actions, location,isFavorited,onToggleFavorite  }) => {
 const SquirrelCard: React.FC<Squirrel> = ({userUUID,squirrelUUID, squirrelName, primaryFurColor, age, actions, location  }) => {
     const [addFavorite, { error } ]= useMutation(FAV_SQUIRREL);
 
@@ -31,7 +29,6 @@ const SquirrelCard: React.FC<Squirrel> = ({userUUID,squirrelUUID, squirrelName, 
         }
 
     }
-
     return (
         <div>
             <section className="card-header">
@@ -43,6 +40,9 @@ const SquirrelCard: React.FC<Squirrel> = ({userUUID,squirrelUUID, squirrelName, 
                 <p> {primaryFurColor} </p>
                 <p> {location} </p>
                 <p> {actions} </p>
+                <button onClick={() => onToggleFavorite(squirrelUUID)}>
+                    {isFavorited ? "Favorited" : "Favorite?"}
+                </button>
             </section>
             <section className="card-button">
                 <button onClick={favoriteSquirrel}> Favorite this Squirrel </button>
