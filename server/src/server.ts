@@ -41,11 +41,18 @@ const startApolloServer = async () => {
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
     app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      const filePath = path.resolve(__dirname, '../client/dist/index.html');
+      console.log("Serving index.html from:", filePath);
+      res.sendFile(filePath, (err) => {
+        if (err) {
+          console.error("Failed to serve index.html:", err);
+          res.status(500).send("Error serving frontend");
+        }
+      });
     });
   }
 
-  app.listen(PORT, () => { 
+  app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
     console.log(`GraphQL endpoint: http://localhost:${PORT}/graphql`);
   });
