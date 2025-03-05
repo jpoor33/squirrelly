@@ -1,7 +1,9 @@
+import { useState } from "react";
+import { squirrelImages } from "@/utils/squirrelImages";
 import { useMutation, useQuery } from '@apollo/client';
 import SearchBar from '@/components/SearchBar';
 import SquirrelCard from '@/components/SquirrelCard';
-import { GET_SQUIRRELS, GET_USER_FAVORITES} from '@/utils/queries';
+import { GET_SQUIRRELS, GET_USER_FAVORITES } from '@/utils/queries';
 import { ADD_FAV_SQUIRREL } from '@/utils/mutations';
 
 interface Squirrel {
@@ -13,31 +15,53 @@ interface Squirrel {
   location: string;
 }
 
-const SquirrelList: React.FC = () => {
-  const username = "pikachu"
+const Home: React.FC = () => {
+  const storedUserProfile = localStorage.getItem("userProfile");
+  const userProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
+  const username = userProfile.name;
 
-  const { loading:squirrelloading, data:squirreldata } = useQuery(GET_SQUIRRELS);
-
-  const { loading:faovritesloading, data: favoritesData,refetch} = useQuery(GET_USER_FAVORITES, {
+  // GraphQL Queries & Mutations
+  const { loading: squirrelloading, data: squirreldata } = useQuery(GET_SQUIRRELS);
+  const { loading: favoritesloading, data: favoritesData, refetch } = useQuery(GET_USER_FAVORITES, {
     variables: { username },
   });
 
   const [addFavSquirrel] = useMutation(ADD_FAV_SQUIRREL, {
-  onCompleted: () => refetch(),
+    onCompleted: () => refetch(),
   });
 
-  if (squirrelloading || faovritesloading) {
-  return <div>Loading...</div>
- }
+  // State Hooks
+  const [currentPage, setCurrentPage] = useState(1);
 
-  
-  const SquirrelArray:Squirrel[] = squirreldata?.getSquirrels || [];
-  const userFavorites = favoritesData?.getUserFavorites?.map((sq: {squirrelUUID:string}) => sq.squirrelUUID) || [];
+  if (squirrelloading || favoritesloading) {
+    return <div>Loading...</div>;
+  }
 
-  const handleToggleFavorite = async (squirrelUUID: string) => {
-    await addFavSquirrel({ variables: { username, squirrelUUID}});
+  // Derived Data
+  const SquirrelArray: Squirrel[] = squirreldata?.getSquirrels || [];
+  const userFavorites = favoritesData?.getUserFavorites?.map((sq: { squirrelUUID: string }) => sq.squirrelUUID) || [];
+
+  // Pagination Logic
+
+  const pageSize = 6;
+  const totalPages = Math.ceil(SquirrelArray.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const currentSquirrels = SquirrelArray.slice(startIndex, startIndex + pageSize);
+
+    // Fix: Use `SquirrelArray.length` instead of `SquirrelCard.length`
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  // Mutation Handler
+  const handleToggleFavorite = async (squirrelUUID: string) => {
+    await addFavSquirrel({ variables: { username, squirrelUUID } });
+  };
 
   return (
     <div className="container mx-auto p-8">
@@ -45,12 +69,44 @@ const SquirrelList: React.FC = () => {
         <SearchBar onSearch={(query) => console.log('Search query:', query)} />
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {SquirrelArray.map((squirrel) => (
-          <SquirrelCard squirrelUUID={squirrel.squirrelUUID} squirrelName={squirrel.squirrelName} primaryFurColor={squirrel.primaryFurColor} age = {squirrel.age} location = {squirrel.location} actions={squirrel.actions} isFavorited={userFavorites.includes(squirrel.squirrelUUID)} onToggleFavorite={handleToggleFavorite}/>
+        {currentSquirrels.map((squirrel) => (
+          <SquirrelCard
+            key={squirrel.squirrelUUID} // Fix: Add `key` to prevent React warnings
+            squirrelUUID={squirrel.squirrelUUID}
+            squirrelName={squirrel.squirrelName}
+            squirrelImage={squirrelImages[Math.floor(Math.random() * squirrelImages.length)]}
+            primaryFurColor={squirrel.primaryFurColor}
+            age={squirrel.age}
+            location={squirrel.location}
+            actions={squirrel.actions}
+            isFavorited={userFavorites.includes(squirrel.squirrelUUID)}
+            onToggleFavorite={handleToggleFavorite}
+          />
         ))}
+      </div>
+      <div className="flex justify-center items-center mt-8 gap-4">
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          style={{ fontFamily: "'Bagel Fat One', cursive", color: 'var(--primary)' }}
+          className="px-4 py-2 bg-gray-300 text-gray-800 rounded disabled:opacity-50"
+        >
+          &lt;
+        </button>
+        <span className="text-lg">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          style={{ fontFamily: "'Bagel Fat One', cursive", color: 'var(--primary)' }}
+          className="px-4 py-2 bg-gray-300 text-gray-800 rounded disabled:opacity-50"
+        >
+          &gt;
+        </button>
       </div>
     </div>
   );
 };
 
-export default SquirrelList;
+export default Home;

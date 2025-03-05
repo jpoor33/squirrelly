@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface SearchProps {
-  onSearch: (query: string) => void;
+  onSearch: (results: any) => void; //expecting an array
 }
 
 export default function SearchBar({ onSearch }: SearchProps) {
@@ -17,7 +17,7 @@ export default function SearchBar({ onSearch }: SearchProps) {
       try {
         const token = localStorage.getItem("loginToken");
         const response = await fetch("/api/search/history", {
-          headers: { Authorization: `bear ${token}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response.ok) {
           const data = await response.json();
@@ -36,33 +36,38 @@ export default function SearchBar({ onSearch }: SearchProps) {
     setQuery(value);
     setOpen(value.trim() !== "");
     if (value.trim() === "") {
-      onSearch("");
+      onSearch([]);
     }
   };
-
+//Put the search route down here :)
   const handleSearch = async () => {
     if (!query.trim()) {
-      onSearch("");
+      onSearch([]);
       return;
     }
     try {
+      const token = localStorage.getItem("loginToken");
       const response = await fetch("/api/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "bear " + (localStorage.getItem("loginToken") || ""),
+          Authorization: "Bearer " + (token || ""),
         },
         body: JSON.stringify({ q: query.trim() }),
       });
-      if (!response.ok) return;
+      if (!response.ok) {
+        console.error("Search request failed with status", response.status);
+        return;
+      }
       const data = await response.json();
       onSearch(data);
 
+      // Optionally update search history on the server
       await fetch("/api/search/history", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "bear " + (localStorage.getItem("loginToken") || ""),
+          Authorization: "Bearer " + (token || ""),
         },
         body: JSON.stringify({ query: query.trim() }),
       });
@@ -93,11 +98,16 @@ export default function SearchBar({ onSearch }: SearchProps) {
             value={query}
             onChange={handleInputChange}
             onKeyDown={handleKeyPress}
-            className="flex-grow px-6 py-8 text-xl border-2 border-gray-300 rounded-lg shadow-md 
-                       bg-transparent text-white transition-all duration-300 transform 
-                       hover:bg-white hover:text-black 
-                       focus:bg-white focus:text-black focus:ring-2 focus:ring-blue-400 focus:border-blue-500 
-                       outline-none focus:scale-105"
+            className="flex-grow px-6 py-8 text-xl border-2 border-amber-200 
+             rounded-lg shadow-md 
+             bg-amber-50 text-amber-700
+             transition-all duration-300 transform 
+             hover:bg-white hover:text-amber-700 
+             focus:bg-white focus:text-amber-700
+             focus:ring-2 focus:ring-amber-600 
+             focus:border-amber-300
+             outline-none focus:scale-103
+             focus:shadow-[0_0_5px_3px_#d97706]"
           />
         </PopoverTrigger>
         {history.length > 0 && (

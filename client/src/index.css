@@ -89,7 +89,7 @@ button {
 }
 
 button:hover {
-  @apply bg-orange-950;
+  background: #b45309;
   @apply text-amber-200;
   transform: scale(1.05);
 }
@@ -140,4 +140,14 @@ button:hover {
   body {
     @apply bg-background text-foreground;
   }
+}
+body {
+  font-family: "Hanuman", serif;
+  font-weight: 400;
+  
+  /* font-family: "Sniglet", system-ui;
+  font-weight: 400; */
+
+  /* font-family: "Playwrite DE Grund", cursive;
+  font-optical-sizing: auto; */
 }
