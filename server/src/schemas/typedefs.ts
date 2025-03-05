@@ -47,6 +47,7 @@ const typeDefs = `
     findComments(_id: ID!): [Comments!]!
     getSquirrels: [Squirrel!]!
     getUserFavorites(username: String!):[Squirrel!]!
+    getSingleSquirrel(_id: ID!): Squirrel!
   }
 
   type Mutation {

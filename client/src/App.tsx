@@ -18,8 +18,6 @@ const App: React.FC = () => {
       <ApolloProvider client={client}>
       <Navbar />
       <Outlet />
-      {/* <Dashboard /> */}
-      {/* <SignIn /> */}
       <div className="p-4">    
       </div>
     </ApolloProvider>

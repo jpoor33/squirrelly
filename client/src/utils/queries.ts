@@ -13,24 +13,35 @@ query GetSquirrels {
   }
 }`
 
+export const GET_SINGLE_SQUIRREL = gql`
+query getSingleSquirrel($_id: ID!) {
+  getSingleSquirrel (_id: $_id) {
+    squirrelUUID
+    squirrelName
+    primaryFurColor
+    age
+    actions
+    location 
+  }
+}`
+
 export const FIND_COMMENTS = gql`
 query FindComments($id: ID!) {
-    findComments(_id: $id) {
+    findComments(_id: $_id) {
       squirrelUUID
       textContent
       username
     }
   }`
 
-  export const GET_USER_FAVORITES = gql`
-  query GetUserFavorites($username: String!) {
-    getUserFavorites(username: $username) {
-      squirrelUUID
-      squirrelName
-      primaryFurColor
-      age
-      actions
-      location
+export const GET_USER_FAVORITES = gql`
+query GetUserFavorites($username: String!) {
+  getUserFavorites(username: $username) {
+     squirrelUUID
+     squirrelName
+     primaryFurColor
+     age
+     actions
+     location
     }
-  }
-`;
+  }`
