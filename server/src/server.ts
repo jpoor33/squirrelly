@@ -6,10 +6,14 @@ import db from './config/connection.js';
 import { ApolloServer } from '@apollo/server';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { expressMiddleware } from '@apollo/server/express4';
+import { fileURLToPath } from 'url';
 
 // import { authenticateToken } from './utils/auth.js';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const startApolloServer = async () => {
   await db();
