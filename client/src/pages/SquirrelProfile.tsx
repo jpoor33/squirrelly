@@ -2,36 +2,31 @@ import { useQuery } from "@apollo/client";
 import { GET_SINGLE_SQUIRREL } from "@/utils/queries";
 import { useParams } from "react-router-dom";
 import SquirrelProfile from "@/components/SquirrelProfile";
-// import SquirrelComments from "@/components/Comment";
+import SquirrelComments from "@/components/Comment";
+import CommentForm from "@/components/CommentForm";
 
 const Profile: React.FC = () => {
-  const { squirrelUUID } = useParams<{ squirrelUUID: string }>();
 
-  const { loading, data, error } = useQuery(GET_SINGLE_SQUIRREL, {
-    variables: { squirrelUUID },
-  });
+    const { loading, data } = useQuery(GET_SINGLE_SQUIRREL, {
+        variables: { _id: id },
+    });
 
-  if (loading) {
-    return (
-      <div
+    const squirrel = data?.getSingleSquirrel || {};
+
+    //squirrel name is returning undefined?
+    console.log("Squirrel Name:", squirrel.squirrelName);
+
+    console.log(squirrel);
+
+    if (loading) {
+        return <div
         className="flex justify-center p-8"
         style={{ fontFamily: "'Bagel Fat One', cursive", color: "var(--primary)" }}
       >
         Squirrel data is loading...
       </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center p-8 text-red-500">
-        Error: {error.message}
-      </div>
-    );
-  }
-
-  const squirrel = data?.getSingleSquirrel;
-
+    };
+        
   return (
     <div className="container mx-auto p-4">
       {squirrel ? (
@@ -43,6 +38,8 @@ const Profile: React.FC = () => {
           location={squirrel.location}
           actions={squirrel.actions}
         />
+          <SquirrelComments comments={squirrel.comments} />
+                    <CommentForm />
       ) : (
         <h4 className="text-center">
           That squirrel does not live in Central Park! Head back to explore others.
