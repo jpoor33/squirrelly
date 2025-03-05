@@ -3,10 +3,10 @@ import { Schema, model, type Document } from 'mongoose';
 export interface IFavSquirrels extends Document {
     squirrelUUID: string;
     squirrelName: string;
-    squirrelImage: string;
     primaryFurColor: string;
     age: string;
-    actions: Record<string, boolean>;
+    actions: (string|null)[];
+    location: string;
     }
 
     const FavSquirrelsSchema = new Schema<IFavSquirrels>({
@@ -17,9 +17,6 @@ export interface IFavSquirrels extends Document {
         squirrelName: {
             type: String,
         },
-        squirrelImage: {
-            type: String,
-        },
         primaryFurColor: {
             type: String,
         },
@@ -27,9 +24,12 @@ export interface IFavSquirrels extends Document {
             type: String,
         },
         actions: {
-            type: Map,
+            type: Array,
             of: Boolean,
         },
+        location: {
+            type: String,    
+        }
     });
 
     const FavSquirrels = model('FavSquirrels', FavSquirrelsSchema);

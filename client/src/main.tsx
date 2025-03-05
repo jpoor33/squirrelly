@@ -3,9 +3,14 @@ import App from './App';
 import Home from './pages/Home';
 import Error from './pages/Error';
 import Profile from './pages/SquirrelProfile';
+import User from './pages/UserPage';
+import LogIn from './pages/LogIn';
+import SignUp from './pages/SignUp';
+import About from './pages/AboutUs';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import SignIn from './pages/SignIn';
+import ProtectedRoute from './components/ProtectedRoute';
+
 
 const router = createBrowserRouter([
   {
@@ -18,14 +23,29 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: '/squirrelprofile/:squirrelUUID',
+        path: '/squirrelprofile/:id',
         element: <Profile />
       },
       {
-        path: '/signin',
-        element: <SignIn />
+        path: '/login',
+        element: <LogIn />
+      },
+      { 
+        path: '/signup', 
+        element: <SignUp />
+       },
+       { 
+        path: '/about', 
+        element: <About />
+       },
+      {
+        path: '/user',
+        element: (
+          <ProtectedRoute>
+            <User />
+          </ProtectedRoute>
+        ),
       }
-
     ]
   },
 ]);

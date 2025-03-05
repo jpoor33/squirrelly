@@ -1,42 +1,55 @@
 import { useQuery } from "@apollo/client";
-import { GET_SQUIRRELS } from "@/utils/queries";
+import { GET_SINGLE_SQUIRREL } from "@/utils/queries";
 import { useParams } from "react-router-dom";
+import SquirrelProfile from "@/components/SquirrelProfile";
+// import SquirrelComments from "@/components/Comment";
 
-const Profile  = () => {
-    const { squirrelUUID } = useParams<{ squirrelUUID: string }>();
+const Profile: React.FC = () => {
+  const { squirrelUUID } = useParams<{ squirrelUUID: string }>();
 
-const { loading, data } = useQuery(GET_SQUIRRELS);
+  const { loading, data, error } = useQuery(GET_SINGLE_SQUIRREL, {
+    variables: { squirrelUUID },
+  });
 
-if (loading) {
-    return <div>Squirrel data is loading...</div>;
+  if (loading) {
+    return (
+      <div
+        className="flex justify-center p-8"
+        style={{ fontFamily: "'Bagel Fat One', cursive", color: "var(--primary)" }}
+      >
+        Squirrel data is loading...
+      </div>
+    );
   }
 
-// need to find individual squirrel, assign to const squirrelInfo
-const squirrelInfo = data?.getSquirrels.find (
-    (squirrel: any) => squirrel.squirrelUUID == squirrelUUID
-);
-
-if (!squirrelInfo?.squirrelName) {
+  if (error) {
     return (
-        <h4>
-            That squirrel does not live in Central Park! Head back to explore others.
+      <div className="flex justify-center p-8 text-red-500">
+        Error: {error.message}
+      </div>
+    );
+  }
+
+  const squirrel = data?.getSingleSquirrel;
+
+  return (
+    <div className="container mx-auto p-4">
+      {squirrel ? (
+        <SquirrelProfile
+          squirrelUUID={squirrel.squirrelUUID}
+          squirrelName={squirrel.squirrelName}
+          primaryFurColor={squirrel.primaryFurColor}
+          age={squirrel.age}
+          location={squirrel.location}
+          actions={squirrel.actions}
+        />
+      ) : (
+        <h4 className="text-center">
+          That squirrel does not live in Central Park! Head back to explore others.
         </h4>
-    )
-}
-
-console.log(squirrelInfo);
-
-// do we want to search by id? if so...
-// if ( ().data._id === squirrelUUID) {
-//     return <Navigate to = '/:' />
-// }
-
-return (
-    <div>
-        <h2> { squirrelInfo.squirrelName } </h2>;
+      )}
     </div>
-)
+  );
 };
 
 export default Profile;
-

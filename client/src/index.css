@@ -4,6 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+  @apply bg-amber-50;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -11,7 +18,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary:#bb9457;
+  --primary: #b45309;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -76,14 +83,14 @@
 }
 
 button {
-  color:#432818;
-  background-color:#d4a373;
+  @apply bg-amber-200;
+  @apply text-orange-950;
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 button:hover {
-  color: #d4a373;
-  background-color:#432818;
+  background: #b45309;
+  @apply text-amber-200;
   transform: scale(1.05);
 }
 
@@ -133,4 +140,14 @@ button:hover {
   body {
     @apply bg-background text-foreground;
   }
+}
+body {
+  font-family: "Hanuman", serif;
+  font-weight: 400;
+  
+  /* font-family: "Sniglet", system-ui;
+  font-weight: 400; */
+
+  /* font-family: "Playwrite DE Grund", cursive;
+  font-optical-sizing: auto; */
 }
