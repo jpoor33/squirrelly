@@ -29,7 +29,7 @@ const SignUp: React.FC = () => {
     };
     localStorage.setItem('userProfile', JSON.stringify(userProfile));
     alert('Registration successful. Please sign in.');
-    navigate('/signin');
+    navigate('/login');
   };
 
   return (
