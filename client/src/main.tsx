@@ -9,7 +9,7 @@ import SignUp from './pages/SignUp';
 import About from './pages/AboutUs';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute';
+// import ProtectedRoute from './components/ProtectedRoute';
 
 
 const router = createBrowserRouter([
@@ -40,12 +40,8 @@ const router = createBrowserRouter([
        },
       {
         path: '/user',
-        element: (
-          <ProtectedRoute>
-            <User />
-          </ProtectedRoute>
-        ),
-      }
+        element: <User />
+      },
     ]
   },
 ]);
