@@ -14,20 +14,20 @@ query GetSquirrels {
 }`
 
 export const GET_SINGLE_SQUIRREL = gql`
-query getSingleSquirrel($id: ID!) {
-  getSingleSquirrel (_id: $id) {
+query getSingleSquirrel($_id: ID!) {
+  getSingleSquirrel (_id: $_id) {
     squirrelUUID
     squirrelName
     primaryFurColor
     age
     actions
-    location
+    location 
   }
 }`
 
 export const FIND_COMMENTS = gql`
 query Query($id: ID!) {
-  findComments(_id: $id) {
+  findComments(_id: $_id) {
     _id
     squirrelUUID
     textContent

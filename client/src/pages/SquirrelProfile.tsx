@@ -8,13 +8,14 @@ const Profile = () => {
     const { id } = useParams<{ id: string }>();
 
     const { loading, data } = useQuery(GET_SINGLE_SQUIRREL, {
-        variables: { id: id },
+        variables: { _id: id }, 
     });
 
-    const squirrel = data?.getSingleSquirrel || {};
+    //below should change (not be stringified -- used this for testing)
+    const squirrel = data?.getSingleSquirrel ? JSON.parse(JSON.stringify(data.getSingleSquirrel)) : {};
 
-    // const squirrel = { ...data.getSingleSquirrel };
-
+    console.log("Squirrel ID from useParams:", id);
+    console.log("Raw Apollo data:", data);
     console.log("Squirrel Data:", squirrel);
     console.log("Squirrel Prototype:", Object.getPrototypeOf(squirrel));
 

@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: '/squirrelprofile/:squirrelUUID',
+        path: '/squirrelprofile/:id',
         element: <Profile />
       },
       {
