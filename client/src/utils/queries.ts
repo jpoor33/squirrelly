@@ -27,12 +27,13 @@ query getSingleSquirrel($_id: ID!) {
 
 export const FIND_COMMENTS = gql`
 query FindComments($id: ID!) {
-    findComments(_id: $_id) {
-      squirrelUUID
-      textContent
-      username
-    }
-  }`
+  findComments(_id: $_id) {
+    _id
+    squirrelUUID
+    textContent
+    username
+  }
+}`
 
 export const GET_USER_FAVORITES = gql`
 query GetUserFavorites($username: String!) {

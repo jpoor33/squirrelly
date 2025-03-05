@@ -11,13 +11,14 @@ const Profile = () => {
         variables: { _id: id }, 
     });
 
-    //below should change (not be stringified -- used this for testing)
-    const squirrel = data?.getSingleSquirrel ? JSON.parse(JSON.stringify(data.getSingleSquirrel)) : {};
+    const squirrel = data?.getSingleSquirrel || {};
 
-    console.log("Squirrel ID from useParams:", id);
-    console.log("Raw Apollo data:", data);
+    // console.log("Squirrel ID from useParams:", id);
+    // console.log("Raw Apollo data:", data);
     console.log("Squirrel Data:", squirrel);
-    console.log("Squirrel Prototype:", Object.getPrototypeOf(squirrel));
+
+    //SQUIRREL NAME IS RETURNING UNDEFINED...
+    console.log("Squirrel Name:", squirrel.squirrelName);
 
     console.log(squirrel);
 
@@ -37,6 +38,7 @@ const Profile = () => {
                     location={squirrel.location}
                     actions={squirrel.actions}
                 />
+
                     {/* access the array of squirrels comments - for each comment, run the call back function with props as parameters. Each "comment" has these props, and an index of where it is in the array. */}
                     {squirrel.comments?.map((comment: { username: string; textContent: string }, index: number) => (
                         <SquirrelComments

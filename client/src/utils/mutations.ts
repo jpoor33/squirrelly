@@ -19,4 +19,4 @@ export const ADD_FAV_SQUIRREL = gql`
       favSquirrels
     }
   }
-`;
+}`
