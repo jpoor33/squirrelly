@@ -1,47 +1,17 @@
-import { useMutation } from "@apollo/client";
-import { FAV_SQUIRREL } from "@/utils/mutations";
-import likeIcon from '@/assets/like-icon.svg';
-import styles from '../pages/User.module.css';
-import { Link } from "react-router-dom";
-
 interface Squirrel {
-  userUUID: string;
-  squirrelUUID: string;
-  squirrelName: string;
-  primaryFurColor: string;
-  age: string;
-  actions: string[];
-  location: string;
-  cardWidth?: string;
-  cardHeight?: string;
-  squirrelImage: string;
+    squirrelUUID: string;
+    squirrelName: string;
+    primaryFurColor: string;
+    age: string;
+    actions: string[];
+    location: string;
+    isFavorited: boolean;
+    onToggleFavorite: (squirrelUUID: string) => void;
 }
 
-const SquirrelCard: React.FC<Squirrel> = ({
-  userUUID,
-  squirrelUUID,
-  squirrelName,
-  primaryFurColor,
-  age,
-  actions,
-  location,
-  cardWidth = "300px",  
-  cardHeight = "450px",
-  squirrelImage,
-}) => {
-  const [addFavorite, { error }] = useMutation(FAV_SQUIRREL);
-
-  const favoriteSquirrel = async () => {
-    try {
-      await addFavorite({
-        variables: { userUUID, squirrelUUID },
-      });
-    } catch (err: any) {
-      console.error("Error favoriting Squirrel:", err.message);
-    }
-  };
-
-  return (
+//needs to be styled as a card
+const SquirrelCard: React.FC<Squirrel> = ({squirrelUUID, squirrelName, primaryFurColor, age, actions, location,isFavorited,onToggleFavorite  }) => {
+    return (
     <div 
     style={{ width: cardWidth, height: cardHeight }}
     className="bg-white rounded-lg shadow-sm p-6 flex flex-col justify-between transform transition-all duration-300 hover:bg-amber-100 hover:shadow-xl hover:-translate-y-1 hover:scale-101">
@@ -80,7 +50,6 @@ const SquirrelCard: React.FC<Squirrel> = ({
       {error && (
         <div className="mt-4 bg-red-500 text-white p-2 rounded">
           Something went wrong...
-        </div>
       )}
     </div>
   );

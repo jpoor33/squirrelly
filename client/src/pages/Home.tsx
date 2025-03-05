@@ -1,10 +1,10 @@
 import { useState } from "react";
-// import { useQuery } from '@apollo/client';
-import SearchBar from '@/components/SearchBar';
-// import SquirrelCard from '@/components/SquirrelCard';
-// import { GET_SQUIRRELS } from '@/utils/queries';
-import DummySquirrelCard from "@/components/DummyCard";
 import { squirrelImages } from "@/utils/squirrelImages";
+import { useMutation, useQuery } from '@apollo/client';
+import SearchBar from '@/components/SearchBar';
+import SquirrelCard from '@/components/SquirrelCard';
+import { GET_SQUIRRELS, GET_USER_FAVORITES} from '@/utils/queries';
+import { ADD_FAV_SQUIRREL } from '@/utils/mutations';
 
 // interface Squirrel {
 //   squirrelUUID: string;
@@ -15,17 +15,22 @@ import { squirrelImages } from "@/utils/squirrelImages";
 //   location: string;
 // }
 
-const Home: React.FC = () => {
+const SquirrelList: React.FC = () => {
+  const username = "pikachu"
 
-  const dummySquirrels = Array.from({ length: 24 }, (_, i) => ({
-    userUUID: `user-${i}`,
-    squirrelUUID: `squirrel-${i}`,
-    squirrelName: `Malcolm ${i + 1}`,
-    primaryFurColor: i % 2 === 0 ? 'Brown' : 'Gray',
-    age: `${i + 1} years`,
-    actions: ['running', 'jumping'],
-    location: 'Central Park',
-  })); 
+  const { loading:squirrelloading, data:squirreldata } = useQuery(GET_SQUIRRELS);
+
+  const { loading:faovritesloading, data: favoritesData,refetch} = useQuery(GET_USER_FAVORITES, {
+    variables: { username },
+  });
+
+  const [addFavSquirrel] = useMutation(ADD_FAV_SQUIRREL, {
+  onCompleted: () => refetch(),
+  });
+
+  if (squirrelloading || faovritesloading) {
+  return <div>Loading...</div>
+ }
 
   const shuffledImages = [...squirrelImages].sort(() => Math.random() - 0.5);
   
@@ -56,6 +61,24 @@ const Home: React.FC = () => {
             squirrelImage={shuffledImages[index % shuffledImages.length]}
             {...squirrel}
           />
+             
+             
+  const SquirrelArray:Squirrel[] = squirreldata?.getSquirrels || [];
+  const userFavorites = favoritesData?.getUserFavorites?.map((sq: {squirrelUUID:string}) => sq.squirrelUUID) || [];
+
+  const handleToggleFavorite = async (squirrelUUID: string) => {
+    await addFavSquirrel({ variables: { username, squirrelUUID}});
+  };
+
+
+  return (
+    <div className="container mx-auto p-8">
+      <div className="mb-8">
+        <SearchBar onSearch={(query) => console.log('Search query:', query)} />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {SquirrelArray.map((squirrel) => (
+          <SquirrelCard squirrelUUID={squirrel.squirrelUUID} squirrelName={squirrel.squirrelName} primaryFurColor={squirrel.primaryFurColor} age = {squirrel.age} location = {squirrel.location} actions={squirrel.actions} isFavorited={userFavorites.includes(squirrel.squirrelUUID)} onToggleFavorite={handleToggleFavorite}/>
         ))}
       </div>
       <div className="flex justify-center items-center mt-8 gap-4">

@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { GET_SINGLE_SQUIRREL } from "@/utils/queries";
 import { useParams } from "react-router-dom";
 import SquirrelProfile from "@/components/SquirrelProfile";
+import SquirrelComments from "@/components/Comment";
 
 const Profile: React.FC = () => {
   const { squirrelUUID } = useParams<{ squirrelUUID: string }>();
