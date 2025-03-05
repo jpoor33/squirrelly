@@ -26,7 +26,7 @@ query getSingleSquirrel($_id: ID!) {
 }`
 
 export const FIND_COMMENTS = gql`
-query Query($id: ID!) {
+query FindComments($id: ID!) {
   findComments(_id: $_id) {
     _id
     squirrelUUID

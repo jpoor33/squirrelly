@@ -19,3 +19,4 @@ mutation AddSquirrel($_id: ID!, $squirrelUUID: String!) {
     squirrelUUID
   }
 }`
+
