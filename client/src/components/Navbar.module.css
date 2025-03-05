@@ -1,0 +1,21 @@
+.navbarButton {
+    color: #b45309;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: inherit !important;
+    padding: 0.5rem 1rem;
+  }
+
+  .navbarButton:hover {
+    color: #451a03 !important; 
+  }
+
+  .squirrelIcon {
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .squirrelIcon:hover {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+  }
