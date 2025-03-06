@@ -46,8 +46,8 @@ const resolvers = {
                 return squirrels.map((squirrel: any) => ({
                     squirrelUUID: squirrel.unique_squirrel_id,
                     squirrelName: faker.person.firstName(),
-                    primaryFurColor: squirrel.primary_fur_color || " ",
-                    age: squirrel.age || " ",
+                    primaryFurColor: squirrel.primary_fur_color || "Unknown",
+                    age: squirrel.age || "Unknown",
                     actions: [
                         squirrel.running === "true" || squirrel.running === true ? "running" : null,
                         squirrel.chasing === "true" || squirrel.chasing === true ? "chasing" : null,
@@ -55,7 +55,7 @@ const resolvers = {
                         squirrel.foraging === "true" || squirrel.foraging === true ? "foraging" : null,
                         squirrel.climbing === "true" || squirrel.climbing === true ? "climbing" : null,
                     ].filter(Boolean),
-                    location: squirrel.location || " ",
+                    location: squirrel.location || "Unknown",
 
                 }));
             } catch (error) {

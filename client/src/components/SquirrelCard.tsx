@@ -12,8 +12,16 @@ interface Squirrel {
   onToggleFavorite: (squirrelUUID: string) => void;
 }
 
-//needs to be styled as a card
-const SquirrelCard: React.FC<Squirrel> = ({ squirrelUUID, squirrelName, squirrelImage, primaryFurColor, age, actions, location, isFavorited, onToggleFavorite }) => {
+const SquirrelCard: React.FC<Squirrel> = ({ 
+  squirrelUUID, 
+  squirrelName, 
+  squirrelImage, 
+  primaryFurColor, 
+  age, 
+  actions, 
+  location, 
+  isFavorited, 
+  onToggleFavorite }) => {
   return (
     <div
       className="bg-white rounded-lg shadow-sm p-6 flex flex-col justify-between transform transition-all duration-300 hover:bg-amber-100 hover:shadow-xl hover:-translate-y-1 hover:scale-105"
@@ -24,27 +32,31 @@ const SquirrelCard: React.FC<Squirrel> = ({ squirrelUUID, squirrelName, squirrel
           alt="Squirrel"
           className="w-full h-40 object-cover rounded-lg mb-4"
         />
-        <div className="mb-4">
+         <div className="mb-4">
           <h1 className="text-2xl font-bold text-amber-800">{squirrelName}</h1>
         </div>
       </Link>
       <div className="space-y-2">
         <p className="text-orange-950">
-          <span className="font-semibold">Age:</span> {age}
+          <span className="font-semibold">Age:</span> {age || "Unknown"}
         </p>
         <p className="text-orange-950">
-          <span className="font-semibold">Fur Color:</span> {primaryFurColor}
+          <span className="font-semibold">Fur Color:</span> {primaryFurColor || "Unknown"}
         </p>
         <p className="text-orange-950">
-          <span className="font-semibold">Location:</span> {location}
+          <span className="font-semibold">Location:</span> {location || "Unknown"}
         </p>
         <p className="text-orange-950">
-          <span className="font-semibold">Actions:</span> {actions.join(", ")}
+          <span className="font-semibold">Actions:</span>{" "}
+          {actions && actions.length > 0 ? actions.join(", ") : "Unknown"}
         </p>
       </div>
       <div className="mt-4 flex justify-center">
-      <button onClick={() => onToggleFavorite(squirrelUUID)}>
-      {isFavorited ? "Favorited" : "Favorite?"}
+      <button
+          onClick={() => onToggleFavorite(squirrelUUID)}
+          className="flex items-center justify-center p-2 rounded-full transition-colors duration-300"
+          style={{ backgroundColor: isFavorited ? "#451a03" : "#fbbf24" }}
+        >
           <img src={likeIcon} alt="Like" className="h-6 w-6" />
         </button>
       </div>

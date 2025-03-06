@@ -16,14 +16,15 @@
     "license": "ISC",
     "dependencies": {
         "@apollo/server": "^4.10.4",
+        "@faker-js/faker": "^9.5.1",
         "apollo-server-express": "^3.13.0",
         "bcrypt": "^5.0.0",
+        "cors": "^2.8.5",
         "dotenv": "^16.4.5",
         "express": "^4.19.2",
         "graphql": "^16.10.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^8.4.3",
-        "@faker-js/faker": "^9.5.1"
+        "mongoose": "^8.4.3"
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.2",
