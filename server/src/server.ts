@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import type { Request, Response } from 'express';
 import dotenv from "dotenv";
 import path from 'node:path';
@@ -7,6 +8,7 @@ import { ApolloServer } from '@apollo/server';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { expressMiddleware } from '@apollo/server/express4';
 import { fileURLToPath } from 'url';
+import searchRoutes from './api/search.js';
 
 // import { authenticateToken } from './utils/auth.js';
 
@@ -20,6 +22,10 @@ const startApolloServer = async () => {
 
   const PORT = process.env.PORT || 3001;
   const app = express();
+
+  app.use(cors());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
@@ -36,6 +42,8 @@ const startApolloServer = async () => {
     //   context: authenticateToken as any
     // }
   ));
+
+  app.use('/api/search', searchRoutes);
   
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../../client/dist')));
