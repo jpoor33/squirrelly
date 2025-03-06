@@ -46,7 +46,9 @@ const Navbar: React.FC = () => {
         </Link>
         {!token && location.pathname !== "/signin" && (
           <Link to="/login">
-            <Button variant="link" className={styles.navbarButton}>Sign In</Button>
+            <Button variant="link"
+            style={{ fontFamily: "'Bagel Fat One', cursive", color: 'var(--primary)' }}
+            className={`${styles.navbarButton} text-xl`}>Log In</Button>
           </Link>
         )}
          {token && (
