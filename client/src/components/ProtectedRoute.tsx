@@ -9,7 +9,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (!token) {
     // If no token, redirect to SignIn.tsx
-    return <Navigate to="/signin" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   // Otherwise, render the protected page
