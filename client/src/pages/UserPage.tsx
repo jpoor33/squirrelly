@@ -24,7 +24,7 @@ interface Squirrel {
 }
 
 interface UserData {
-  name: string;
+  username: string;
   email: string;
   bio?: string;
   avatarUrl?: string;
@@ -34,7 +34,7 @@ interface UserData {
 const User: React.FC = () => {
   const storedUserProfile = localStorage.getItem("userProfile");
   const userProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
-  const username = userProfile.name;
+  const username = userProfile.username;
 
   
   
@@ -127,7 +127,7 @@ const User: React.FC = () => {
       </div>
 
       <div className="mt-20 text-center">
-        <h1 className="text-3xl font-bold mb-2">Welcome, {user.name}</h1>
+        <h1 className="text-3xl font-bold mb-2">Welcome, {user.username}</h1>
         {user.bio && <p className="text-gray-700 mb-4">{user.bio}</p>}
       </div>
 
