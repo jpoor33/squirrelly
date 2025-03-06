@@ -17,6 +17,7 @@ interface Squirrel {
 }
 
 const Home: React.FC = () => {
+
   const storedUserProfile = localStorage.getItem("userProfile");
   const userProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
   const username = userProfile ? userProfile.name : "";
