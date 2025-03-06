@@ -36,6 +36,7 @@ const SignUp: React.FC = () => {
           username,
           email,
           bio,
+          password,
           avatarUrl: "/default-avatar.png",
         };
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
