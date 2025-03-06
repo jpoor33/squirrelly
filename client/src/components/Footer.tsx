@@ -1,6 +1,6 @@
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-amber-800 text-white py-6 mt-8">
+    <footer className="bg-amber-800 text-white py-6 mt-8 w-full fixed bottom-0 left-0">
       <div className="container mx-auto px-4 text-center">
         <p className="text-sm">
           &copy; {new Date().getFullYear()} Squirrelly. All rights reserved.

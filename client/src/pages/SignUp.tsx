@@ -50,8 +50,8 @@ const SignUp: React.FC = () => {
   };
   
 
-  return (
-    <div className="flex items-center justify-center pt-24">
+  return (  
+    <div className="flex justify-center pt-4 mt-25">
       <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-lg relative z-50">
         <h2 className="text-3xl text-center text-gray-900 mb-6">Create an Account</h2>
         <form onSubmit={handleSignUp} className="space-y-4">
